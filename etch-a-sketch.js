@@ -30,7 +30,8 @@ const grid = document.getElementsByClassName("grid")[0];
 }
 
 { // grid coloring
-  let coloringFunction = changeColorBlack;
+  let coloringFunction = changeColor;
+  let drawColor = "black";
   
   const buttonColorBlack = document.getElementsByClassName("black-button")[0];
   buttonColorBlack.addEventListener("click", () => coloringFunction = changeColorBlack);
@@ -44,8 +45,8 @@ const grid = document.getElementsByClassName("grid")[0];
     }
   });
 
-  function changeColorBlack(element) {
-    element.style.backgroundColor = "black";
+  function changeColor(element) {
+    element.style.backgroundColor = drawColor;
   }
   
   function changeColorRandom(element) {
@@ -55,4 +56,31 @@ const grid = document.getElementsByClassName("grid")[0];
   function random(number) {
     return Math.floor(Math.random()*number);
   }
+
+  const buttonColorBlack = document.getElementsByClassName("black-button")[0];
+  buttonColorBlack.addEventListener("click", () => {
+    coloringFunction = changeColor;
+    drawColor = "black";
+  });
+
+  const buttonColorRed = document.getElementsByClassName("red-button")[0];
+  buttonColorRed.addEventListener("click", () => {
+    coloringFunction = changeColor;
+    drawColor = "red";
+  });
+
+  const buttonColorGreen = document.getElementsByClassName("green-button")[0];
+  buttonColorGreen.addEventListener("click", () => {
+    coloringFunction = changeColor;
+    drawColor = "green";
+  });
+
+  const buttonColorBlue = document.getElementsByClassName("blue-button")[0];
+  buttonColorBlue.addEventListener("click", () => {
+    coloringFunction = changeColor;
+    drawColor = "blue";
+  });
+
+  const buttonColorRandom = document.getElementsByClassName("random-button")[0];
+  buttonColorRandom.addEventListener("click", () => coloringFunction = changeColorRandom);
 }
