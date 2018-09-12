@@ -1,3 +1,66 @@
+var Color = {
+  set red(val) {this._red = Math.floor(this.clamp(val, 0, 255));},
+  get red() {return this._red;},
+  set green(val) {this._green = Math.floor(this.clamp(val, 0, 255));},
+  get green() {return this._green;},
+  set blue(val) {this._blue = Math.floor(this.clamp(val, 0, 255));},
+  get blue() {return this._blue;},
+  init(red,green,blue) {
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
+    return this
+  },
+  initRandom() {
+    this.red = this.random(255);
+    this.green = this.random(255);
+    this.blue = this.random(255);
+    return this
+  },
+  initFromHex(hex) {
+    this.red = parseInt(hex.substr(1,2),16);
+    this.green = parseInt(hex.substr(3,2),16);
+    this.blue = parseInt(hex.substr(5,2),16);
+    return this
+  },
+  initFromRGB(rgb) {
+    [this.red, this.green, this.blue] = rgb.slice(4,-1).split(",");
+    return this;
+  },
+  add(other) {
+    return Object.create(Color).init(this.red + other.red, this.green + other.green, this.blue + other.blue)
+  },
+  subtract(other) {
+    return Object.create(Color).init(this.red - other.red, this.green - other.green, this.blue - other.blue);
+  },
+  multiply(factor) {
+    return Object.create(Color).init(this.red * factor, this.green * factor, this.blue * factor)
+  },
+  clamp(number, min, max) {
+    return Math.min(Math.max(min, number), max)
+  },
+  hex(number) {
+    return (number < 16 ? "0":"") + number.toString(16);
+  },
+  random(number) {
+    return Math.floor(Math.random()*number);
+  },
+  toRGB() {
+    return `rgb(${this.red},${this.green},${this.blue})`
+  },
+  toHex() {
+    return "#" + this.hex(this.red) + this.hex(this.green) + this.hex(this.blue)
+  },
+  invert() {
+    return Object.create(Color).init(255 - this.red, 255 - this.green, 255 - this.blue);
+  },
+  get WHITE() {return this._WHITE = this._WHITE || Object.create(Color).init(255,255,255)},
+  get BLACK() {return this._BLACK = this._BLACK || Object.create(Color).init(0,0,0)},
+  get RED() {return this._RED = this._RED || Object.create(Color).init(255,0,0)},
+  get GREEN() {return this._GREEN = this._GREEN || Object.create(Color).init(0,255,0)},
+  get BLUE() {return this._BLUE = this._BLUE || Object.create(Color).init(0,0,255)},
+}
+
 const grid = document.getElementsByClassName("grid")[0];
 
 { // grid drawing
@@ -73,41 +136,5 @@ const grid = document.getElementsByClassName("grid")[0];
 
   const buttonColorRandom = document.getElementsByClassName("random-button")[0];
   buttonColorRandom.addEventListener("click", () => coloringFunction = changeColorRandom);
-  
-  let Color = {
-    set red(val) {this._red = this.clamp(val, 0, 255);},
-    get red() {return this._red;},
-    set green(val) {this._green = this.clamp(val, 0, 255);},
-    get green() {return this._green;},
-    set blue(val) {this._blue = this.clamp(val, 0, 255);},
-    get blue() {return this._blue;},
-    init(red,green,blue) {
-      this.red = red;
-      this.green = green;
-      this.blue = blue;
-      return this
-    },
-    add(other) {
-      return Object.create(Color).init(this.red + other.red, this.green + other.green, this.blue + other.blue)
-    },
-    multiply(factor) {
-      return Object.create(Color).init(this.red * factor, this.green * factor, this.blue * factor)
-    },
-    clamp(number, min, max) {
-      return Math.min(Math.max(min, number), max)
-    },
-    hex(number) {
-      return (number < 16 ? "0":"") + number.toString(16);
-    },
-    get toRGB() {
-      return `rgb(${this.red},${this.green},${this.blue})`
-    },
-    get toHex() {
-      return "#" + this.hex(this.red) + this.hex(this.green) + this.hex(this.blue)
-    }
   }
 
-  function random(number) {
-    return Math.floor(Math.random()*number);
-  }
-}
