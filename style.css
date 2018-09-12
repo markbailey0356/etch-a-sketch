@@ -1,18 +1,12 @@
 * {margin: 0; padding: 0;}
 
 .grid {
-  width: 256px;
-  height: 256px;
   border: 2px solid black;
-  position: relative;
-  left: 50px;
-  top: 50px;
+  margin: 5px;
 }
 
 .square {
   background-color: white;
-  width: 16px;
-  height: 16px;
   float: left;
 }
 
