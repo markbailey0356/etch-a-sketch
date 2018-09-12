@@ -33,12 +33,6 @@ const grid = document.getElementsByClassName("grid")[0];
   let coloringFunction = changeColor;
   let drawColor = "black";
   
-  const buttonColorBlack = document.getElementsByClassName("black-button")[0];
-  buttonColorBlack.addEventListener("click", () => coloringFunction = changeColorBlack);
-
-  const buttonColorRandom = document.getElementsByClassName("random-button")[0];
-  buttonColorRandom.addEventListener("click", () => coloringFunction = changeColorRandom);
-
   grid.addEventListener("mouseover", function(event) {
     if (event.target.classList.contains("square")) { // ensure only squares are targeted, not the whole grid
       coloringFunction(event.target);
@@ -51,10 +45,6 @@ const grid = document.getElementsByClassName("grid")[0];
   
   function changeColorRandom(element) {
     element.style.backgroundColor = `rgb(${random(255)},${random(255)},${random(255)})`;
-  }
-  
-  function random(number) {
-    return Math.floor(Math.random()*number);
   }
 
   const buttonColorBlack = document.getElementsByClassName("black-button")[0];
@@ -83,4 +73,41 @@ const grid = document.getElementsByClassName("grid")[0];
 
   const buttonColorRandom = document.getElementsByClassName("random-button")[0];
   buttonColorRandom.addEventListener("click", () => coloringFunction = changeColorRandom);
+  
+  let Color = {
+    set red(val) {this._red = this.clamp(val, 0, 255);},
+    get red() {return this._red;},
+    set green(val) {this._green = this.clamp(val, 0, 255);},
+    get green() {return this._green;},
+    set blue(val) {this._blue = this.clamp(val, 0, 255);},
+    get blue() {return this._blue;},
+    init(red,green,blue) {
+      this.red = red;
+      this.green = green;
+      this.blue = blue;
+      return this
+    },
+    add(other) {
+      return Object.create(Color).init(this.red + other.red, this.green + other.green, this.blue + other.blue)
+    },
+    multiply(factor) {
+      return Object.create(Color).init(this.red * factor, this.green * factor, this.blue * factor)
+    },
+    clamp(number, min, max) {
+      return Math.min(Math.max(min, number), max)
+    },
+    hex(number) {
+      return (number < 16 ? "0":"") + number.toString(16);
+    },
+    get toRGB() {
+      return `rgb(${this.red},${this.green},${this.blue})`
+    },
+    get toHex() {
+      return "#" + this.hex(this.red) + this.hex(this.green) + this.hex(this.blue)
+    }
+  }
+
+  function random(number) {
+    return Math.floor(Math.random()*number);
+  }
 }
