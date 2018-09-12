@@ -65,23 +65,31 @@ const grid = document.getElementsByClassName("grid")[0];
 const DEFAULT_SQUARE_COLOR = Color.BLACK;
 
 { // grid drawing
-  const GRID_SIDE_LENGTH_IN_PIXELS = 960;
-  const DEFAULT_GRID_SQUARES_PER_SIDE = 32;
+  const SIDE_BAR_WIDTH_IN_PIXELS = 120;
+  const GRID_WIDTH_IN_PIXELS = window.innerWidth - SIDE_BAR_WIDTH_IN_PIXELS;
+  const GRID_HEIGHT_IN_PIXELS = window.innerHeight;
+  const DEFAULT_GRID_HEIGHT_IN_SQUARES = 32;
 
-  grid.style.width = grid.style.height = GRID_SIDE_LENGTH_IN_PIXELS + "px";
+  grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
+  grid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
 
-  drawGrid(DEFAULT_GRID_SQUARES_PER_SIDE);
+  drawGrid(DEFAULT_GRID_HEIGHT_IN_SQUARES);
 
-  function drawGrid(squaresPerSide = DEFAULT_GRID_SQUARES_PER_SIDE) {
-    let squareSideLength = Math.floor(GRID_SIDE_LENGTH_IN_PIXELS / Math.floor(squaresPerSide));
+  function drawGrid(heightInSquares = DEFAULT_GRID_HEIGHT_IN_SQUARES, widthInSquares) {
+    let squareHeight = Math.floor(GRID_HEIGHT_IN_PIXELS / Math.floor(heightInSquares));
+    widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
+    let squareWidth = Math.floor(GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares)) ;
+
     while (grid.lastChild) {
       grid.removeChild(grid.lastChild);
     }
-    for (let i = 0; i < Math.pow(squaresPerSide, 2); i++) {
+
+    for (let i = 0; i < heightInSquares * widthInSquares; i++) {
       let square = document.createElement("div");
       square.classList.add("square");
       square.style.backgroundColor = DEFAULT_SQUARE_COLOR.toRGB();
-      square.style.width = square.style.height = squareSideLength + "px";
+      square.style.width = squareWidth + "px";
+      square.style.height = squareHeight + "px";
       grid.appendChild(square);
     }
   }
@@ -89,8 +97,11 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
   const buttonRedraw = document.getElementsByClassName("redraw-button")[0];
 
   buttonRedraw.addEventListener("click", function(event) {
-    let newSquaresPerSide = prompt("Please enter how many squares per side", DEFAULT_GRID_SQUARES_PER_SIDE) || DEFAULT_GRID_SQUARES_PER_SIDE;
-    drawGrid(newSquaresPerSide);
+    let newHeightInSquares = prompt("Please enter how many grid squares in height", DEFAULT_GRID_HEIGHT_IN_SQUARES);
+    let newWidthInSquares = prompt("Please enter how many grid squares in width [Leave blank for square grid-squares]", "");
+    if (newHeightInSquares) {
+      drawGrid(newHeightInSquares, newWidthInSquares);
+    }
   });
 }
 
