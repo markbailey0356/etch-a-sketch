@@ -2,11 +2,20 @@
 
 .grid {
   width: 256px;
+  height: 256px;
+  border: 2px solid black;
+  position: relative;
+  left: 50px;
+  top: 50px;
 }
 
 .square {
-  background-color: blue;
+  background-color: white;
   width: 16px;
   height: 16px;
   float: left;
+}
+
+.square:hover {
+  background-color: black;
 }
