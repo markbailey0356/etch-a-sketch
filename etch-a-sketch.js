@@ -4,3 +4,8 @@ for (let i = 0; i < 256; i++) {
   square.classList.add("square");
   grid.appendChild(square);
 }
+grid.addEventListener("mouseover", function(event) {
+  if (event.target.classList.contains("square")) {
+    event.target.classList.add("coloured");
+  }
+});

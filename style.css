@@ -16,6 +16,6 @@
   float: left;
 }
 
-.square:hover {
+.coloured {
   background-color: black;
 }
