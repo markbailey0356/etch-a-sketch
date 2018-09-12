@@ -13,7 +13,7 @@ grid.addEventListener("mouseover", function(event) {
 
 const redrawButton = document.getElementsByClassName("redraw-button")[0];
 redrawButton.addEventListener("click", function(event) {
-  let newSquaresPerSide = prompt("Please enter how many squares per side", DEFAULT_GRID_SQUARES_PER_SIDE);
+  let newSquaresPerSide = prompt("Please enter how many squares per side", DEFAULT_GRID_SQUARES_PER_SIDE) || DEFAULT_GRID_SQUARES_PER_SIDE;
   drawGrid(newSquaresPerSide);
 });
 
