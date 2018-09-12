@@ -5,9 +5,11 @@ grid.style.width = grid.style.height = GRID_SIDE_LENGTH_IN_PIXELS + "px";
 
 drawGrid(DEFAULT_GRID_SQUARES_PER_SIDE);
 
+let coloringFunction = changeColorRandom;
+
 grid.addEventListener("mouseover", function(event) {
-  if (event.target.classList.contains("square")) {
-    event.target.classList.add("coloured");
+  if (event.target.classList.contains("square")) { // ensure only squares are targeted, not the whole grid
+    coloringFunction(event.target);
   }
 });
 
@@ -28,4 +30,16 @@ function drawGrid(squaresPerSide = DEFAULT_GRID_SQUARES_PER_SIDE) {
     square.style.width = square.style.height = squareSideLength + "px";
     grid.appendChild(square);
   }
+}
+
+function changeColorBlack(element) {
+  element.style.backgroundColor = "black";
+}
+
+function changeColorRandom(element) {
+  element.style.backgroundColor = `rgb(${random(255)},${random(255)},${random(255)})`;
+}
+
+function random(number) {
+  return Math.floor(Math.random()*number);
 }
