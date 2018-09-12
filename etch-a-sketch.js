@@ -62,6 +62,7 @@ var Color = {
 }
 
 const grid = document.getElementsByClassName("grid")[0];
+const DEFAULT_SQUARE_COLOR = Color.BLACK;
 
 { // grid drawing
   const GRID_SIDE_LENGTH_IN_PIXELS = 960;
@@ -79,6 +80,7 @@ const grid = document.getElementsByClassName("grid")[0];
     for (let i = 0; i < Math.pow(squaresPerSide, 2); i++) {
       let square = document.createElement("div");
       square.classList.add("square");
+      square.style.backgroundColor = DEFAULT_SQUARE_COLOR.toRGB();
       square.style.width = square.style.height = squareSideLength + "px";
       grid.appendChild(square);
     }
@@ -94,7 +96,8 @@ const grid = document.getElementsByClassName("grid")[0];
 
 { // grid coloring
   let coloringFunction = changeColor;
-  let drawColor = "black";
+  let drawColor = Color.WHITE;
+  let opacity = 0.1;
   
   grid.addEventListener("mouseover", function(event) {
     if (event.target.classList.contains("square")) { // ensure only squares are targeted, not the whole grid
@@ -103,38 +106,39 @@ const grid = document.getElementsByClassName("grid")[0];
   });
 
   function changeColor(element) {
-    element.style.backgroundColor = drawColor;
+    let currentColor = element.style.backgroundColor ? Object.create(Color).initFromRGB(element.style.backgroundColor) : DEFAULT_SQUARE_COLOR;
+    element.style.backgroundColor = currentColor.add(drawColor.multiply(opacity)).toRGB();
   }
   
   function changeColorRandom(element) {
-    element.style.backgroundColor = `rgb(${random(255)},${random(255)},${random(255)})`;
+    element.style.backgroundColor = Object.create(Color).initRandom().toRGB();
   }
 
-  const buttonColorBlack = document.getElementsByClassName("black-button")[0];
-  buttonColorBlack.addEventListener("click", () => {
+  const buttonColorWhite = document.getElementsByClassName("white-button")[0];
+  buttonColorWhite.addEventListener("click", () => {
     coloringFunction = changeColor;
-    drawColor = "black";
+    drawColor = Color.WHITE;
   });
 
   const buttonColorRed = document.getElementsByClassName("red-button")[0];
   buttonColorRed.addEventListener("click", () => {
     coloringFunction = changeColor;
-    drawColor = "red";
+    drawColor = Color.RED;
   });
 
   const buttonColorGreen = document.getElementsByClassName("green-button")[0];
   buttonColorGreen.addEventListener("click", () => {
     coloringFunction = changeColor;
-    drawColor = "green";
+    drawColor = Color.GREEN;
   });
 
   const buttonColorBlue = document.getElementsByClassName("blue-button")[0];
   buttonColorBlue.addEventListener("click", () => {
     coloringFunction = changeColor;
-    drawColor = "blue";
+    drawColor = Color.BLUE;
   });
 
   const buttonColorRandom = document.getElementsByClassName("random-button")[0];
   buttonColorRandom.addEventListener("click", () => coloringFunction = changeColorRandom);
-  }
+}
 
