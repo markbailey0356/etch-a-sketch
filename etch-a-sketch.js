@@ -95,9 +95,13 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
   function drawHexGrid() {
     clearGrid();
     
-    const hexagonSideLength = 50;
+    const hexagonSideLength = 10;
+    const hexagonBorder = 0.5;
     const hexagonHeight = Math.sqrt(3) * hexagonSideLength;
     
+    document.documentElement.style.setProperty("--default-hexagon-background-color", DEFAULT_SQUARE_COLOR.toRGB())
+    document.documentElement.style.setProperty("--default-hexagon-margin-side-length", hexagonSideLength + "px")
+    document.documentElement.style.setProperty("--default-hexagon-margin", hexagonBorder + "px");
 
     for (let row = 0; row < 5; row++) {
       let _top = (hexagonHeight / 2) * (row - 1);
@@ -105,8 +109,6 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
         let _left = (row % 2)*(hexagonSideLength*1.5) + (hexagonSideLength * 3) * col;
         let hexagon = document.createElement("div");
         hexagon.classList.add("hexagon");
-        hexagon.style.setProperty("--hexagon-background-color", DEFAULT_SQUARE_COLOR.toRGB());
-        hexagon.style.setProperty("--hexagon-margin-side-length", hexagonSideLength + "px");
         hexagon.style.left = _left + "px";
         hexagon.style.top = _top + "px";
         grid.appendChild(hexagon);

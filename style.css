@@ -8,10 +8,16 @@
   float: left;
 }
 
+:root {
+  --default-hexagon-margin-side-length: 50px;
+  --default-hexagon-background-color: black;
+  --default-hexagon-margin: 1px;
+}
+
 .hexagon {  /* the central rectangle */
-  --hexagon-margin-side-length: 50px;
-  --hexagon-background-color: black;
-  --hexagon-margin: 1px; /* border won't behave correctly on :before and :after elements, so instead, shrink the hexagon slightly */
+  --hexagon-margin-side-length: var(--default-hexagon-margin-side-length);
+  --hexagon-background-color: var(--default-hexagon-background-color);
+  --hexagon-margin: var(--default-hexagon-margin); /* border won't behave correctly on :before and :after elements, so instead, shrink the hexagon slightly */
   --hexagon-height: calc(var(--root-3) * var(--hexagon-margin-side-length) - 2*var(--hexagon-margin));
   --hexagon-width: calc(2/var(--root-3) * var(--hexagon-height));
   --hexagon-side-length: calc(var(--hexagon-width) / 2);
