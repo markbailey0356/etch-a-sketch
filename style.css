@@ -8,37 +8,40 @@
   float: left;
 }
 
-.hexagon {
+.hexagon {  /* the central rectangle */
   --hexagon-side-length: 50px;
+  --hexagon-height: calc(var(--root-3) * var(--hexagon-side-length));
+  --hexagon-length: calc(2 * var(--hexagon-side-length));
   --root-3: 1.732;
-  width: var(--hexagon-side-length);
-  height: calc(var(--root-3) * var(--hexagon-side-length));
+  width: var(--hexagon-side-length); /* this is just the width of the central rectangle */
+  height: var(--hexagon-height);
   background-color: red;
   display: inline-block;
-  position: relative;
-  left: calc(var(--hexagon-side-length) / 2);
+  position: absolute;
+  top: calc(-1 * var(--hexagon-height) / 2);
+  left: 0;
 }
 
-.hexagon:before {
+.hexagon:before { /* the left triangle */
   content: "";
   position: absolute;
   width: 0;
   height: 0;
   left: calc(-1 * var(--hexagon-side-length) / 2);
   border-right: calc(var(--hexagon-side-length) / 2) solid red;
-  border-bottom: calc(var(--root-3) / 2 * var(--hexagon-side-length)) solid transparent;
-  border-top: calc(var(--root-3) / 2 * var(--hexagon-side-length)) solid transparent;
+  border-bottom: calc(var(--hexagon-height) / 2) solid transparent;
+  border-top: calc(var(--hexagon-height) / 2) solid transparent;
 }
 
-.hexagon:after {
+.hexagon:after { /* the right triangle */
   content: "";
   position: absolute;
   width: 0;
   height: 0;
   right: calc(-1 * var(--hexagon-side-length) / 2);
   border-left: calc(var(--hexagon-side-length) / 2) solid red;
-  border-bottom: calc(var(--root-3) / 2 * var(--hexagon-side-length)) solid transparent;
-  border-top: calc(var(--root-3) / 2 * var(--hexagon-side-length)) solid transparent;
+  border-bottom: calc(var(--hexagon-height) / 2) solid transparent;
+  border-top: calc(var(--hexagon-height) / 2) solid transparent;
 }
 
 button {
