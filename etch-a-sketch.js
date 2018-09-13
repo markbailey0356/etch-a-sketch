@@ -80,9 +80,7 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
     widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
     let squareWidth = Math.floor(GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares)) ;
 
-    while (grid.lastChild) {
-      grid.removeChild(grid.lastChild);
-    }
+    clearGrid();
 
     for (let i = 0; i < heightInSquares * widthInSquares; i++) {
       let square = document.createElement("div");
@@ -94,6 +92,12 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
     }
   }
 
+
+  function clearGrid() {
+    while (grid.lastChild) {
+      grid.removeChild(grid.lastChild);
+    }
+  }
   const buttonRedraw = document.getElementsByClassName("redraw-button")[0];
 
   buttonRedraw.addEventListener("click", function(event) {
