@@ -66,16 +66,18 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
 
 { // grid drawing
   const SIDE_BAR_WIDTH_IN_PIXELS = 120;
-  const GRID_WIDTH_IN_PIXELS = window.innerWidth;
-  const GRID_HEIGHT_IN_PIXELS = window.innerHeight;  
-  const DEFAULT_GRID_HEIGHT_IN_SQUARES = 32;
+  const GRID_WIDTH_IN_PIXELS = 500 * 5 / 3;
+  const GRID_HEIGHT_IN_PIXELS = 500;  
+  const DEFAULT_GRID_HEIGHT_IN_GRID_UNITS = 32;
   
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
   grid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
+  grid.style.left = SIDE_BAR_WIDTH_IN_PIXELS + "px";
+  grid.style.top = "0";
   
-  drawHexGrid(DEFAULT_GRID_HEIGHT_IN_SQUARES);
+  drawHexGrid();
   
-  function drawGrid(heightInSquares = DEFAULT_GRID_HEIGHT_IN_SQUARES, widthInSquares) {
+  function drawGrid(heightInSquares = DEFAULT_GRID_HEIGHT_IN_GRID_UNITS, widthInSquares) {
     let squareHeight = Math.floor(GRID_HEIGHT_IN_PIXELS / Math.floor(heightInSquares));
     widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
     let squareWidth = Math.floor(GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares)) ;
@@ -92,7 +94,7 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
     }
   }
   
-  function drawHexGrid(heightInHexes) { // currently only support regular hexagons, so only need height
+  function drawHexGrid(heightInHexes = DEFAULT_GRID_HEIGHT_IN_GRID_UNITS) { // currently only support regular hexagons, so only need height
     clearGrid();
     heightInHexes = Math.floor(heightInHexes * 2) / 2; // truncate to nearest 0.5
     const hexagonHeight = GRID_HEIGHT_IN_PIXELS / heightInHexes;
@@ -127,7 +129,7 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
   const buttonRedraw = document.getElementsByClassName("redraw-button")[0];
   
   buttonRedraw.addEventListener("click", function(event) {
-    let newHeightInSquares = prompt("Please enter how many grid squares in height", DEFAULT_GRID_HEIGHT_IN_SQUARES);
+    let newHeightInSquares = prompt("Please enter how many grid squares in height", DEFAULT_GRID_HEIGHT_IN_GRID_UNITS);
     let newWidthInSquares = prompt("Please enter how many grid squares in width [Leave blank for square grid-squares]", "");
     if (newHeightInSquares) {
       drawGrid(newHeightInSquares, newWidthInSquares);

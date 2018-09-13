@@ -1,7 +1,10 @@
 * {margin: 0; padding: 0;}
 
 .grid {
-  float: left;
+  position: absolute;
+  overflow: hidden;
+  height: 500px;
+  width: 500px;
 }
 
 .square {
@@ -25,8 +28,7 @@
   width: var(--hexagon-side-length); /* this is just the width of the central rectangle */
   height: var(--hexagon-height);
   background-color: var(--hexagon-background-color);
-  display: inline-block;
-  position: absolute;
+  position:absolute;
 }
 
 .hexagon:before { /* the left triangle */
