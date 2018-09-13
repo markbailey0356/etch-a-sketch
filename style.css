@@ -8,18 +8,20 @@
 }
 
 .square {
+  --cell-background-color: var(--default-cell-background-color);
+  background-color: var(--cell-background-color);
   float: left;
 }
 
 :root {
   --default-hexagon-margin-side-length: 50px;
-  --default-hexagon-background-color: black;
+  --default-cell-background-color: black;
   --default-hexagon-margin: 1px;
 }
 
 .hexagon {  /* the central rectangle */
   --hexagon-margin-side-length: var(--default-hexagon-margin-side-length);
-  --hexagon-background-color: var(--default-hexagon-background-color);
+  --cell-background-color: var(--default-cell-background-color);
   --hexagon-margin: var(--default-hexagon-margin); /* border won't behave correctly on :before and :after elements, so instead, shrink the hexagon slightly */
   --hexagon-height: calc(var(--root-3) * var(--hexagon-margin-side-length) - 2*var(--hexagon-margin));
   --hexagon-width: calc(2/var(--root-3) * var(--hexagon-height));
@@ -27,7 +29,7 @@
   --root-3: 1.7320508;
   width: var(--hexagon-side-length); /* this is just the width of the central rectangle */
   height: var(--hexagon-height);
-  background-color: var(--hexagon-background-color);
+  background-color: var(--cell-background-color);
   position:absolute;
 }
 
@@ -37,7 +39,7 @@
   width: 0;
   height: 0;
   left: calc(-1 * var(--hexagon-side-length) / 2);
-  border-right: calc(var(--hexagon-side-length) / 2) solid var(--hexagon-background-color);
+  border-right: calc(var(--hexagon-side-length) / 2) solid var(--cell-background-color);
   border-bottom: calc(var(--hexagon-height) / 2) solid transparent;
   border-top: calc(var(--hexagon-height) / 2) solid transparent;
 }
@@ -48,7 +50,7 @@
   width: 0;
   height: 0;
   right: calc(-1 * var(--hexagon-side-length) / 2);
-  border-left: calc(var(--hexagon-side-length) / 2) solid var(--hexagon-background-color);
+  border-left: calc(var(--hexagon-side-length) / 2) solid var(--cell-background-color);
   border-bottom: calc(var(--hexagon-height) / 2) solid transparent;
   border-top: calc(var(--hexagon-height) / 2) solid transparent;
 }
