@@ -66,8 +66,8 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
 
 { // grid drawing
   const SIDE_BAR_WIDTH_IN_PIXELS = 120;
-  const GRID_WIDTH_IN_PIXELS = 500 * 5 / 3;
-  const GRID_HEIGHT_IN_PIXELS = 500;  
+  const GRID_HEIGHT_IN_PIXELS = 490; 
+  const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   const DEFAULT_GRID_HEIGHT_IN_CELLS = 32;
   
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
@@ -101,7 +101,7 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
     heightInHexes = Math.floor(heightInHexes * 2) / 2; // truncate to nearest 0.5
     const hexagonHeight = GRID_HEIGHT_IN_PIXELS / heightInHexes;
     const hexagonSideLength = hexagonHeight / Math.sqrt(3);
-    const hexagonBorder = 1;
+    const hexagonBorder = 0.5;
     
     document.documentElement.style.setProperty("--default-cell-background-color", DEFAULT_CELL_COLOR.toRGB())
     document.documentElement.style.setProperty("--default-hexagon-margin-side-length", hexagonSideLength + "px")
@@ -166,7 +166,7 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
   }
   
   function changeColorRandom(element) {
-    element.style.backgroundColor = Object.create(Color).initRandom().toRGB();
+    element.style.setProperty("--cell-background-color", Object.create(Color).initRandom().toRGB());
   }
   
   const buttonColorWhite = document.getElementsByClassName("white-button")[0];
