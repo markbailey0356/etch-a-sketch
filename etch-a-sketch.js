@@ -66,8 +66,8 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
 
 { // grid drawing
   const SIDE_BAR_WIDTH_IN_PIXELS = 120;
-  const GRID_WIDTH_IN_PIXELS = window.innerWidth - SIDE_BAR_WIDTH_IN_PIXELS;
-  const GRID_HEIGHT_IN_PIXELS = window.innerHeight;
+  const GRID_WIDTH_IN_PIXELS = window.innerWidth;
+  const GRID_HEIGHT_IN_PIXELS = window.innerHeight;  
   const DEFAULT_GRID_HEIGHT_IN_SQUARES = 32;
   
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
@@ -92,20 +92,22 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
     }
   }
   
-  function drawHexGrid() {
+  function drawHexGrid(heightInHexes) { // currently only support regular hexagons, so only need height
     clearGrid();
-    
-    const hexagonSideLength = 10;
-    const hexagonBorder = 0.5;
-    const hexagonHeight = Math.sqrt(3) * hexagonSideLength;
+    heightInHexes = Math.floor(heightInHexes * 2) / 2; // truncate to nearest 0.5
+    const hexagonHeight = GRID_HEIGHT_IN_PIXELS / heightInHexes;
+    const hexagonSideLength = hexagonHeight / Math.sqrt(3);
+    const hexagonBorder = 1;
     
     document.documentElement.style.setProperty("--default-hexagon-background-color", DEFAULT_SQUARE_COLOR.toRGB())
     document.documentElement.style.setProperty("--default-hexagon-margin-side-length", hexagonSideLength + "px")
     document.documentElement.style.setProperty("--default-hexagon-margin", hexagonBorder + "px");
 
-    for (let row = 0; row < 5; row++) {
+    const numRows = heightInHexes*2 + 1;
+    const numCols = Math.floor(2 * (GRID_WIDTH_IN_PIXELS / (3*hexagonSideLength)) + 1 + 1/3);
+    for (let row = 0; row < numRows; row++) {
       let _top = (hexagonHeight / 2) * (row - 1);
-      for (let col = 0; col < 5; col++) {
+      for (let col = 0; col < (numCols - (row % 2)) / 2; col++) { // actually loops over every second column per row
         let _left = (row % 2)*(hexagonSideLength*1.5) + (hexagonSideLength * 3) * col;
         let hexagon = document.createElement("div");
         hexagon.classList.add("hexagon");
