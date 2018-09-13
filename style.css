@@ -8,6 +8,39 @@
   float: left;
 }
 
+.hexagon {
+  --hexagon-side-length: 50px;
+  --root-3: 1.732;
+  width: var(--hexagon-side-length);
+  height: calc(var(--root-3) * var(--hexagon-side-length));
+  background-color: red;
+  display: inline-block;
+  position: relative;
+  left: calc(var(--hexagon-side-length) / 2);
+}
+
+.hexagon:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: calc(-1 * var(--hexagon-side-length) / 2);
+  border-right: calc(var(--hexagon-side-length) / 2) solid red;
+  border-bottom: calc(var(--root-3) / 2 * var(--hexagon-side-length)) solid transparent;
+  border-top: calc(var(--root-3) / 2 * var(--hexagon-side-length)) solid transparent;
+}
+
+.hexagon:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: calc(-1 * var(--hexagon-side-length) / 2);
+  border-left: calc(var(--hexagon-side-length) / 2) solid red;
+  border-bottom: calc(var(--root-3) / 2 * var(--hexagon-side-length)) solid transparent;
+  border-top: calc(var(--root-3) / 2 * var(--hexagon-side-length)) solid transparent;
+}
+
 button {
   margin: 5px;
   height: 50px;
