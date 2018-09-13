@@ -9,14 +9,16 @@
 }
 
 .hexagon {  /* the central rectangle */
-  --hexagon-side-length: 50px;
-  --hexagon-color: red;
-  --hexagon-height: calc(var(--root-3) * var(--hexagon-side-length));
-  --hexagon-length: calc(2 * var(--hexagon-side-length));
-  --root-3: 1.732;
+  --hexagon-margin-side-length: 50px;
+  --hexagon-background-color: black;
+  --hexagon-margin: 1px; /* border won't behave correctly on :before and :after elements, so instead, shrink the hexagon slightly */
+  --hexagon-height: calc(var(--root-3) * var(--hexagon-margin-side-length) - 2*var(--hexagon-margin));
+  --hexagon-width: calc(2/var(--root-3) * var(--hexagon-height));
+  --hexagon-side-length: calc(var(--hexagon-width) / 2);
+  --root-3: 1.7320508;
   width: var(--hexagon-side-length); /* this is just the width of the central rectangle */
   height: var(--hexagon-height);
-  background-color: var(--hexagon-color);
+  background-color: var(--hexagon-background-color);
   display: inline-block;
   position: absolute;
 }
@@ -27,7 +29,7 @@
   width: 0;
   height: 0;
   left: calc(-1 * var(--hexagon-side-length) / 2);
-  border-right: calc(var(--hexagon-side-length) / 2) solid var(--hexagon-color);
+  border-right: calc(var(--hexagon-side-length) / 2) solid var(--hexagon-background-color);
   border-bottom: calc(var(--hexagon-height) / 2) solid transparent;
   border-top: calc(var(--hexagon-height) / 2) solid transparent;
 }
@@ -38,7 +40,7 @@
   width: 0;
   height: 0;
   right: calc(-1 * var(--hexagon-side-length) / 2);
-  border-left: calc(var(--hexagon-side-length) / 2) solid var(--hexagon-color);
+  border-left: calc(var(--hexagon-side-length) / 2) solid var(--hexagon-background-color);
   border-bottom: calc(var(--hexagon-height) / 2) solid transparent;
   border-top: calc(var(--hexagon-height) / 2) solid transparent;
 }

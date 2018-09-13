@@ -69,19 +69,19 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
   const GRID_WIDTH_IN_PIXELS = window.innerWidth - SIDE_BAR_WIDTH_IN_PIXELS;
   const GRID_HEIGHT_IN_PIXELS = window.innerHeight;
   const DEFAULT_GRID_HEIGHT_IN_SQUARES = 32;
-
+  
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
   grid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
-
+  
   drawHexGrid(DEFAULT_GRID_HEIGHT_IN_SQUARES);
-
+  
   function drawGrid(heightInSquares = DEFAULT_GRID_HEIGHT_IN_SQUARES, widthInSquares) {
     let squareHeight = Math.floor(GRID_HEIGHT_IN_PIXELS / Math.floor(heightInSquares));
     widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
     let squareWidth = Math.floor(GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares)) ;
     
     clearGrid();
-
+    
     for (let i = 0; i < heightInSquares * widthInSquares; i++) {
       let square = document.createElement("div");
       square.classList.add("square");
@@ -91,33 +91,37 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
       grid.appendChild(square);
     }
   }
-
+  
   function drawHexGrid() {
     clearGrid();
+    
+    const hexagonSideLength = 50;
+    const hexagonHeight = Math.sqrt(3) * hexagonSideLength;
+    
 
-    let hexagon = document.createElement("div");
-    hexagon.classList.add("hexagon");
-    hexagon.style.setProperty("--hexagon-color", DEFAULT_SQUARE_COLOR.toRGB());
-    hexagon.style.left = "0";
-    hexagon.style.top = "0";
-    grid.appendChild(hexagon);
-
-    hexagon = document.createElement("div");
-    hexagon.classList.add("hexagon");
-    hexagon.style.setProperty("--hexagon-color", Color.RED.toRGB());
-    hexagon.style.left = "100px";
-    hexagon.style.top = "100px";
-    grid.appendChild(hexagon);
+    for (let row = 0; row < 5; row++) {
+      let _top = (hexagonHeight / 2) * (row - 1);
+      for (let col = 0; col < 5; col++) {
+        let _left = (row % 2)*(hexagonSideLength*1.5) + (hexagonSideLength * 3) * col;
+        let hexagon = document.createElement("div");
+        hexagon.classList.add("hexagon");
+        hexagon.style.setProperty("--hexagon-background-color", DEFAULT_SQUARE_COLOR.toRGB());
+        hexagon.style.setProperty("--hexagon-margin-side-length", hexagonSideLength + "px");
+        hexagon.style.left = _left + "px";
+        hexagon.style.top = _top + "px";
+        grid.appendChild(hexagon);
+      }
+    }
   }
-
+  
   function clearGrid() {
     while (grid.lastChild) {
       grid.removeChild(grid.lastChild);
     }
   }
-
+  
   const buttonRedraw = document.getElementsByClassName("redraw-button")[0];
-
+  
   buttonRedraw.addEventListener("click", function(event) {
     let newHeightInSquares = prompt("Please enter how many grid squares in height", DEFAULT_GRID_HEIGHT_IN_SQUARES);
     let newWidthInSquares = prompt("Please enter how many grid squares in width [Leave blank for square grid-squares]", "");
@@ -137,7 +141,7 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
       coloringFunction(event.target);
     }
   });
-
+  
   function changeColor(element) {
     let currentColor = element.style.backgroundColor ? Object.create(Color).initFromRGB(element.style.backgroundColor) : DEFAULT_SQUARE_COLOR;
     element.style.backgroundColor = currentColor.add(drawColor.multiply(opacity)).toRGB();
@@ -146,31 +150,31 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
   function changeColorRandom(element) {
     element.style.backgroundColor = Object.create(Color).initRandom().toRGB();
   }
-
+  
   const buttonColorWhite = document.getElementsByClassName("white-button")[0];
   buttonColorWhite.addEventListener("click", () => {
     coloringFunction = changeColor;
     drawColor = Color.WHITE;
   });
-
+  
   const buttonColorRed = document.getElementsByClassName("red-button")[0];
   buttonColorRed.addEventListener("click", () => {
     coloringFunction = changeColor;
     drawColor = Color.RED;
   });
-
+  
   const buttonColorGreen = document.getElementsByClassName("green-button")[0];
   buttonColorGreen.addEventListener("click", () => {
     coloringFunction = changeColor;
     drawColor = Color.GREEN;
   });
-
+  
   const buttonColorBlue = document.getElementsByClassName("blue-button")[0];
   buttonColorBlue.addEventListener("click", () => {
     coloringFunction = changeColor;
     drawColor = Color.BLUE;
   });
-
+  
   const buttonColorRandom = document.getElementsByClassName("random-button")[0];
   buttonColorRandom.addEventListener("click", () => coloringFunction = changeColorRandom);
 }
