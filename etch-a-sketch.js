@@ -73,13 +73,13 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
   grid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
 
-  drawGrid(DEFAULT_GRID_HEIGHT_IN_SQUARES);
+  drawHexGrid(DEFAULT_GRID_HEIGHT_IN_SQUARES);
 
   function drawGrid(heightInSquares = DEFAULT_GRID_HEIGHT_IN_SQUARES, widthInSquares) {
     let squareHeight = Math.floor(GRID_HEIGHT_IN_PIXELS / Math.floor(heightInSquares));
     widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
     let squareWidth = Math.floor(GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares)) ;
-
+    
     clearGrid();
 
     for (let i = 0; i < heightInSquares * widthInSquares; i++) {
@@ -92,12 +92,30 @@ const DEFAULT_SQUARE_COLOR = Color.BLACK;
     }
   }
 
+  function drawHexGrid() {
+    clearGrid();
+
+    let hexagon = document.createElement("div");
+    hexagon.classList.add("hexagon");
+    hexagon.style.setProperty("--hexagon-color", DEFAULT_SQUARE_COLOR.toRGB());
+    hexagon.style.left = "0";
+    hexagon.style.top = "0";
+    grid.appendChild(hexagon);
+
+    hexagon = document.createElement("div");
+    hexagon.classList.add("hexagon");
+    hexagon.style.setProperty("--hexagon-color", Color.RED.toRGB());
+    hexagon.style.left = "100px";
+    hexagon.style.top = "100px";
+    grid.appendChild(hexagon);
+  }
 
   function clearGrid() {
     while (grid.lastChild) {
       grid.removeChild(grid.lastChild);
     }
   }
+
   const buttonRedraw = document.getElementsByClassName("redraw-button")[0];
 
   buttonRedraw.addEventListener("click", function(event) {
