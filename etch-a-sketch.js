@@ -209,10 +209,24 @@ const DEFAULT_COLOR_MODE = "subtract";
     } 
   }
 
+  function isDefaultCellColor(element) {
+    return !element.style.getPropertyValue("--cell-background-color");
+  }
+
   function clearDrawing() {
     for (let cell of Array.from(grid.children)) {
       if (cell.classList.contains("cell")) {
         setCellColor(cell);
+      }
+    }
+  }
+
+  function invertDrawing(changeDefaultColoredCells = false) {
+    for (let cell of Array.from(grid.children)) {
+      if (cell.classList.contains("cell")) {
+        if (!isDefaultCellColor(cell) || changeDefaultColoredCells) {
+          setCellColor(cell, getCellColor(cell).invert());
+        }
       }
     }
   }
@@ -261,7 +275,7 @@ const DEFAULT_COLOR_MODE = "subtract";
 
   function changeDrawingMode(_colorMode = DEFAULT_COLOR_MODE) {
     colorMode = _colorMode;
-    clearDrawing();
+    invertDrawing();
     if (_colorMode == "add") {
       setDefaultCellColor(Color.BLACK);
       grid.style.backgroundColor = "white";
