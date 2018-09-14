@@ -152,15 +152,19 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
   let coloringFunction = changeColor;
   let drawColor = Color.WHITE;
   let opacity = 0.5;
-  
+
   grid.addEventListener("mouseover", function(event) {
     if (event.target.classList.contains("cell")) { // ensure only cells are targeted, not the whole grid
-      if (event.buttons == 1) { // draw when left mouse pressed
-        coloringFunction(event.target);
+      if (event.buttons == 1) { // draw with left mouse button
+        coloringFunction(event.target, "add");
+      } else if (event.buttons == 2) { // erase with right mouse button
+        coloringFunction(event.target, "subtract");
       }
     }
   });
-  
+
+  grid.addEventListener("contextmenu", event => event.preventDefault());
+
   function changeColor(element, colorMode) {
     let currentColor = element.style.getPropertyValue("--cell-background-color");
     currentColor = currentColor ? Object.create(Color).initFromRGB(currentColor) : DEFAULT_CELL_COLOR;
