@@ -54,6 +54,20 @@ var Color = {
   invert() {
     return Object.create(Color).init(255 - this.red, 255 - this.green, 255 - this.blue);
   },
+  stretch(factor, center = 127) {
+    return Object.create(Color).init((this.red - center) * factor + center,
+      (this.green - center) * factor + center,
+      (this.blue - center) * factor + center);
+  },
+  unstretch(factor, center = 127) {
+    return this.stretch(1/factor, center);
+  },
+  addUnstreched(other, factor, center = 127) {
+    return this.unstretch(factor, center).add(other).stretch(factor,center);
+  },
+  subtractUnstreched(other, factor, center = 127) {
+    return this.unstretch(factor, center).subtract(other).stretch(factor,center);
+  },
   get WHITE() {return this._WHITE = this._WHITE || Object.create(Color).init(255,255,255)},
   get BLACK() {return this._BLACK = this._BLACK || Object.create(Color).init(0,0,0)},
   get RED() {return this._RED = this._RED || Object.create(Color).init(255,0,0)},
@@ -66,7 +80,6 @@ const frame = document.getElementsByClassName("frame")[0];
 const DEFAULT_COLOR_MODE = "subtract";
 
 { // grid drawing
-  const SIDE_BAR_WIDTH_IN_PIXELS = 120;
   const GRID_HEIGHT_IN_PIXELS = 490; 
   const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   const DEFAULT_GRID_HEIGHT_IN_CELLS = 32;
@@ -145,6 +158,8 @@ const DEFAULT_COLOR_MODE = "subtract";
 }
 
 { // grid coloring
+  const COLOR_STRETCH_FACTOR = 0.7;
+  const COLOR_STRETCH_CENTER = 127;
   let coloringFunction = drawColor;
   let penColor = Color.WHITE;
   let opacity = 0.5;
@@ -167,25 +182,37 @@ const DEFAULT_COLOR_MODE = "subtract";
   grid.addEventListener("dragstart", event => event.preventDefault());
 
   function drawColor(element, colorMode) {
-    let currentColor = element.style.getPropertyValue("--cell-background-color");
-    currentColor = currentColor ? Object.create(Color).initFromRGB(currentColor) : getDefaultCellColor();
+    let currentColor = getCellColor(element);
     colorMode = (colorMode == "subtract") ? Color.subtract.bind(currentColor) : Color.add.bind(currentColor);
-    changeCellColor(element, colorMode(penColor.multiply(opacity)));
+    setCellColor(element, colorMode(penColor.multiply(opacity)));
   }
   
   function drawColorRandom(element) {
-    changeCellColor(element, Object.create(Color).initRandom());
+    setCellColor(element, Object.create(Color).initRandom());
   }
 
-  function changeCellColor(element, color = "") {
-    if (typeof color == "object") color = color.toRGB();
+  function setCellColor(element, color = "") {
+    if (color && typeof color == "string") {
+      if (color[0] == "#") color = Object.create(Color).initFromHex(color);
+      else color = Object.create(Color).initFromRGB(color);
+    } 
+    if (typeof color == "object") color = color.stretch(COLOR_STRETCH_FACTOR, COLOR_STRETCH_CENTER).toRGB();
     element.style.setProperty("--cell-background-color", color);
+  }
+
+  function getCellColor(element) {
+    let cellColor = element.style.getPropertyValue("--cell-background-color");
+    if (cellColor) {
+      return Object.create(Color).initFromRGB(cellColor).unstretch(COLOR_STRETCH_FACTOR, COLOR_STRETCH_CENTER);
+    } else {
+      return getDefaultCellColor();
+    } 
   }
 
   function clearDrawing() {
     for (let cell of Array.from(grid.children)) {
       if (cell.classList.contains("cell")) {
-        changeCellColor(cell);
+        setCellColor(cell);
       }
     }
   }
@@ -221,11 +248,13 @@ const DEFAULT_COLOR_MODE = "subtract";
   buttonClearDrawing.addEventListener("click", clearDrawing);
 
   function setDefaultCellColor(color) {
-    document.documentElement.style.setProperty("--default-cell-background-color", color.toRGB());
+    document.documentElement.style.setProperty("--default-cell-background-color", color.stretch(COLOR_STRETCH_FACTOR, COLOR_STRETCH_CENTER).toRGB());
   }
 
   function getDefaultCellColor() {
-    return Object.create(Color).initFromRGB(getComputedStyle(document.documentElement).getPropertyValue("--default-cell-background-color"));
+    return Object.create(Color)
+        .initFromRGB(getComputedStyle(document.documentElement).getPropertyValue("--default-cell-background-color"))
+        .unstretch(COLOR_STRETCH_FACTOR, COLOR_STRETCH_CENTER);
   }
 
   changeDrawingMode();
