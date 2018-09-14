@@ -68,8 +68,10 @@ the two mouse buttons, and changing the labels on the pen color buttons.
 I have some further ideas to implement:
 
 * Add larger pen sizes
-* Style the grid to appear within a picture of a Magna-doodle
+* Integrate buttons into frame
 * Implement click-and-drag on the Magna-doodle frame
 * Clear the screen by shaking the frame back-and-forth
 * Invert the colours on the screen when switching color modes instead of clearing the grid
-* Make the colours and shades of the pen to be more muted
+* Change pen opacity
+* Add grid-lines to square grid
+* Add button to toggle grid-lines
