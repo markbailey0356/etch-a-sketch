@@ -24,12 +24,12 @@ Making the hexagon required taking a rectangle and adding triangular `:before` a
 Triangular elements could be made by first making the element have zero `width` and `height`, then using a combination
 of thick colored and transparent borders on adjacent sides to form a triangle. As regular hexagons don't actually have
 nice rational dimensions, I started to use CSS custom properties (i.e. CSS variables) and `calc()` to calculate the
-correct dimensions. 
+correct dimensions.
 
 It turned out that CSS custom properties are insanely useful and they were integral to being able to being able to
 change the hex-cells' colors. The javascript would need to change the colour of all three elements of each cell
 individually. However, you could set the inner elements to grab their colour from a custom property on the parent. I
-would only need to change this property in order to change the whole hexagon's color. 
+would only need to change this property in order to change the whole hexagon's color.
 
 It now occurs to me that I could have just set the inner elements to `background-color: inherit` to solve the coloring
 problem, but the custom properties did do something for me that `inherit` couldn't do. I was able to set up a custom
