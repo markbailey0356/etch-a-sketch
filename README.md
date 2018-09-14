@@ -58,6 +58,7 @@ what resolution.
 I have some further ideas to implement: (in order to anticipated difficulty)
 
 * Add the ability to be able to switch between additive and subtractive mode
+* Add larger pen sizes
 * Style the grid to appear within a picture of a Magna-doodle
 * Implement click-and-drag on the Magna-doodle frame
 * Clear the screen by shaking the frame back-and-forth
