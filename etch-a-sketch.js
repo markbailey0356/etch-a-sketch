@@ -62,16 +62,7 @@ var Color = {
 }
 
 const grid = document.getElementsByClassName("grid")[0];
-const DEFAULT_CELL_COLOR = Color.BLACK;
-setDefaultCellColor();
-
-function setDefaultCellColor(color = DEFAULT_CELL_COLOR) {
-  document.documentElement.style.setProperty("--default-cell-background-color", color.toRGB());
-}
-
-function getDefaultCellColor() {
-  return Object.create(Color).initFromRGB(getComputedStyle(document.documentElement).getPropertyValue("--default-cell-background-color"));
-}
+const DEFAULT_COLOR_MODE = "subtract";
 
 { // grid drawing
   const SIDE_BAR_WIDTH_IN_PIXELS = 120;
@@ -87,9 +78,9 @@ function getDefaultCellColor() {
   drawHexGrid();
   
   function drawSquareGrid(heightInSquares = DEFAULT_GRID_HEIGHT_IN_CELLS, widthInSquares) {
-    let squareHeight = Math.floor(GRID_HEIGHT_IN_PIXELS / Math.floor(heightInSquares));
+    let squareHeight = GRID_HEIGHT_IN_PIXELS / Math.floor(heightInSquares);
     widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
-    let squareWidth = Math.floor(GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares)) ;
+    let squareWidth = GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares);
     
     clearGrid();
     
@@ -158,8 +149,10 @@ function getDefaultCellColor() {
   let coloringFunction = drawColor;
   let penColor = Color.WHITE;
   let opacity = 0.5;
-  let leftMouseButtonColorMode = "add";
-  let rightMouseButtonColorMode = "subtract";
+
+  let leftMouseButtonColorMode;
+  let rightMouseButtonColorMode;
+  let colorMode;
 
   grid.addEventListener("mouseover", function(event) {
     if (event.target.classList.contains("cell")) { // ensure only cells are targeted, not the whole grid
@@ -228,12 +221,45 @@ function getDefaultCellColor() {
   const buttonClearDrawing = document.getElementsByClassName("clear-drawing-button")[0];
   buttonClearDrawing.addEventListener("click", clearDrawing);
 
-  (function changeDrawingMode(colorMode = "subtract") {
-    if (colorMode == "subtract") {
+  function setDefaultCellColor(color) {
+    document.documentElement.style.setProperty("--default-cell-background-color", color.toRGB());
+  }
+
+  function getDefaultCellColor() {
+    return Object.create(Color).initFromRGB(getComputedStyle(document.documentElement).getPropertyValue("--default-cell-background-color"));
+  }
+
+  changeDrawingMode();
+
+  function changeDrawingMode(_colorMode = DEFAULT_COLOR_MODE) {
+    colorMode = _colorMode;
+    clearDrawing();
+    if (_colorMode == "add") {
+      setDefaultCellColor(Color.BLACK);
+      grid.style.backgroundColor = "white";
+      grid.style.border = "1px solid white";
+      leftMouseButtonColorMode = "add";
+      rightMouseButtonColorMode = "subtract";
+      buttonColorWhite.textContent = "Color: White";
+      buttonColorRed.textContent = "Color: Red";
+      buttonColorGreen.textContent = "Color: Green";
+      buttonColorBlue.textContent = "Color: Blue";
+    } else if (_colorMode == "subtract") {
       setDefaultCellColor(Color.WHITE);
+      grid.style.backgroundColor = "black";
+      grid.style.border = "1px solid black";
       leftMouseButtonColorMode = "subtract";
       rightMouseButtonColorMode = "add";
+      buttonColorWhite.textContent = "Color: Black";
+      buttonColorRed.textContent = "Color: Cyan";
+      buttonColorGreen.textContent = "Color: Magenta";
+      buttonColorBlue.textContent = "Color: Yellow";
     }
-  })();
+  }
+
+  const buttonChangeColorMode = document.getElementsByClassName("change-color-mode-button")[0];
+  buttonChangeColorMode.addEventListener("click", function() {
+    (colorMode == "add") ? changeDrawingMode("subtract") : changeDrawingMode("add");
+  });
 }
 
