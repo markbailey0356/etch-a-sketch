@@ -53,11 +53,22 @@ After all that, it was simple matter to generalise the drawing functions to allo
 square cells and the hexagonal ones. I also added a couple buttons to allow you to choose which grid to redraw and at
 what resolution.
 
+## Subtractive color mode
+
+The solution to my previous problem of trying to get colours to mix together was to adopt an additive colour model; this
+meant that I had to start with a black background. However, if I wanted to make it look like a magna-doodle, then I
+would need to change the color model to subtractive. Rather than just change the necessary constants, I made functions
+to clear the grid and switch the color model between being additive and subtractive.
+
+Furthermore, I had to change a couple of user interface items between the modes as well; such as swapping the effects of
+the two mouse buttons, and changing the labels on the pen color buttons.
+
 ## To-do list
 
-I have some further ideas to implement: (in order to anticipated difficulty)
+I have some further ideas to implement:
 
-* Add the ability to be able to switch between additive and subtractive mode
 * Style the grid to appear within a picture of a Magna-doodle
 * Implement click-and-drag on the Magna-doodle frame
 * Clear the screen by shaking the frame back-and-forth
+* Invert the colours on the screen when switching color modes instead of clearing the grid
+* Make the colours and shades of the pen to be more muted
