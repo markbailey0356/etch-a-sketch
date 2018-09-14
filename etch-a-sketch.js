@@ -62,6 +62,7 @@ var Color = {
 }
 
 const grid = document.getElementsByClassName("grid")[0];
+const frame = document.getElementsByClassName("frame")[0];
 const DEFAULT_COLOR_MODE = "subtract";
 
 { // grid drawing
@@ -72,8 +73,8 @@ const DEFAULT_COLOR_MODE = "subtract";
   
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
   grid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
-  grid.style.left = SIDE_BAR_WIDTH_IN_PIXELS + "px";
-  grid.style.top = "0";
+  frame.style.left = SIDE_BAR_WIDTH_IN_PIXELS + "px";
+  frame.style.top = "0";
   
   drawHexGrid();
   

@@ -1,10 +1,43 @@
 * {margin: 0; padding: 0;}
 
+.frame {
+  --frame-thickness: 50px;
+  --grid-height: 490px; /* remove defining this constant both here and in JS */
+  --grid-width: calc(5 / 3 * var(--grid-height));
+  position: absolute;
+  width: calc(var(--grid-width) + 2 * var(--frame-thickness));
+  height: calc(var(--grid-height) + 2 * var(--frame-thickness));
+  background-color: var(--frame-color);
+  border-radius: 20px;
+  box-shadow: 10px 10px 10px 5px #222, 
+    inset 2px 2px 10px var(--frame-color), 
+    inset 5px 5px 5px white;
+}
+
 .grid {
   position: absolute;
   overflow: hidden;
-  height: 500px;
-  width: 500px;
+  border-radius: 20px;
+  top: var(--frame-thickness);
+  left: var(--frame-thickness);
+  box-shadow: 2px 2px 10px var(--frame-color),
+    3px 3px 5px white;
+}
+
+.grid::before {
+  content: "";
+
+  box-shadow: inset 2px 2px 2px #222;
+  z-index: 1;
+  width: inherit;
+  height: inherit;
+  border-radius: 15px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  pointer-events: none;
 }
 
 .square {
@@ -17,6 +50,7 @@
   --default-hexagon-margin-side-length: 50px;
   --default-cell-background-color: black;
   --default-hexagon-margin: 1px;
+  --frame-color: #3256bb;
 }
 
 .hexagon {  /* the central rectangle */
