@@ -160,6 +160,8 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
       }
     }
   });
+
+  grid.addEventListener("dragstart", event => event.preventDefault());
   
   function changeColor(element) {
     let currentColor = element.style.getPropertyValue("--cell-background-color");
