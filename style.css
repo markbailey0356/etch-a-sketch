@@ -16,6 +16,8 @@ body {
   position: absolute;
   width: calc(var(--grid-width) + 2 * var(--frame-thickness));
   height: calc(var(--grid-height) + 2 * var(--frame-thickness));
+  top: 100px;
+  left: 150px;
   background-color: var(--frame-color);
   border-radius: 20px;
   box-shadow: 10px 10px 10px 5px #222, 
@@ -101,8 +103,15 @@ body {
   border-top: calc(var(--hexagon-height) / 2) solid transparent;
 }
 
+.buttons {
+  position: absolute;
+  top: 120px;
+  left: 30px;
+}
+
 button {
   margin: 5px;
   height: 50px;
   width: 100px;
+  box-shadow: 2px 2px 2px #222;
 }
