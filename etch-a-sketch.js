@@ -149,8 +149,8 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
 }
 
 { // grid coloring
-  let coloringFunction = changeColor;
-  let drawColor = Color.WHITE;
+  let coloringFunction = drawColor;
+  let penColor = Color.WHITE;
   let opacity = 0.5;
 
   grid.addEventListener("mouseover", function(event) {
@@ -166,42 +166,58 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
   grid.addEventListener("contextmenu", event => event.preventDefault());
   grid.addEventListener("dragstart", event => event.preventDefault());
 
-  function changeColor(element, colorMode) {
+  function drawColor(element, colorMode) {
     let currentColor = element.style.getPropertyValue("--cell-background-color");
     currentColor = currentColor ? Object.create(Color).initFromRGB(currentColor) : DEFAULT_CELL_COLOR;
     colorMode = (colorMode == "subtract") ? Color.subtract.bind(currentColor) : Color.add.bind(currentColor);
-    element.style.setProperty("--cell-background-color", colorMode(drawColor.multiply(opacity)).toRGB());
+    changeCellColor(element, colorMode(penColor.multiply(opacity)));
   }
   
-  function changeColorRandom(element) {
-    element.style.setProperty("--cell-background-color", Object.create(Color).initRandom().toRGB());
+  function drawColorRandom(element) {
+    changeCellColor(element, Object.create(Color).initRandom());
+  }
+
+  function changeCellColor(element, color = "") {
+    if (typeof color == "object") color = color.toRGB();
+    element.style.setProperty("--cell-background-color", color);
+  }
+
+  function clearDrawing() {
+    for (let cell of Array.from(grid.children)) {
+      if (cell.classList.contains("cell")) {
+        changeCellColor(cell);
+      }
+    }
   }
   
   const buttonColorWhite = document.getElementsByClassName("white-button")[0];
   buttonColorWhite.addEventListener("click", () => {
-    coloringFunction = changeColor;
-    drawColor = Color.WHITE;
+    coloringFunction = penColor;
+    penColor = Color.WHITE;
   });
   
   const buttonColorRed = document.getElementsByClassName("red-button")[0];
   buttonColorRed.addEventListener("click", () => {
-    coloringFunction = changeColor;
-    drawColor = Color.RED;
+    coloringFunction = penColor;
+    penColor = Color.RED;
   });
   
   const buttonColorGreen = document.getElementsByClassName("green-button")[0];
   buttonColorGreen.addEventListener("click", () => {
-    coloringFunction = changeColor;
-    drawColor = Color.GREEN;
+    coloringFunction = penColor;
+    penColor = Color.GREEN;
   });
   
   const buttonColorBlue = document.getElementsByClassName("blue-button")[0];
   buttonColorBlue.addEventListener("click", () => {
-    coloringFunction = changeColor;
-    drawColor = Color.BLUE;
+    coloringFunction = penColor;
+    penColor = Color.BLUE;
   });
   
   const buttonColorRandom = document.getElementsByClassName("random-button")[0];
-  buttonColorRandom.addEventListener("click", () => coloringFunction = changeColorRandom);
+  buttonColorRandom.addEventListener("click", () => coloringFunction = drawColorRandom);
+
+  const buttonClearDrawing = document.getElementsByClassName("clear-drawing-button")[0];
+  buttonClearDrawing.addEventListener("click", clearDrawing)
 }
 
