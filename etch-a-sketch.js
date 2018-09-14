@@ -161,10 +161,11 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
     }
   });
   
-  function changeColor(element) {
+  function changeColor(element, colorMode) {
     let currentColor = element.style.getPropertyValue("--cell-background-color");
     currentColor = currentColor ? Object.create(Color).initFromRGB(currentColor) : DEFAULT_CELL_COLOR;
-    element.style.setProperty("--cell-background-color", currentColor.add(drawColor.multiply(opacity)).toRGB());
+    colorMode = (colorMode == "subtract") ? Color.subtract.bind(currentColor) : Color.add.bind(currentColor);
+    element.style.setProperty("--cell-background-color", colorMode(drawColor.multiply(opacity)).toRGB());
   }
   
   function changeColorRandom(element) {
