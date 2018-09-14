@@ -160,6 +160,7 @@ const DEFAULT_COLOR_MODE = "subtract";
 { // grid coloring
   const COLOR_STRETCH_FACTOR = 0.7;
   const COLOR_STRETCH_CENTER = 127;
+  const GRIDLINE_STRETCH_FACTOR = 0.5;
   let coloringFunction = drawColor;
   let penColor = Color.WHITE;
   let opacity = 0.5;
@@ -278,8 +279,7 @@ const DEFAULT_COLOR_MODE = "subtract";
     invertDrawing();
     if (_colorMode == "add") {
       setDefaultCellColor(Color.BLACK);
-      grid.style.backgroundColor = "white";
-      grid.style.border = "1px solid white";
+      grid.style.backgroundColor = Color.BLACK.stretch(GRIDLINE_STRETCH_FACTOR).toRGB();;
       leftMouseButtonColorMode = "add";
       rightMouseButtonColorMode = "subtract";
       buttonColorWhite.textContent = "Color: White";
@@ -288,8 +288,7 @@ const DEFAULT_COLOR_MODE = "subtract";
       buttonColorBlue.textContent = "Color: Blue";
     } else if (_colorMode == "subtract") {
       setDefaultCellColor(Color.WHITE);
-      grid.style.backgroundColor = "black";
-      grid.style.border = "1px solid black";
+      grid.style.backgroundColor = Color.WHITE.stretch(GRIDLINE_STRETCH_FACTOR).toRGB();
       leftMouseButtonColorMode = "subtract";
       rightMouseButtonColorMode = "add";
       buttonColorWhite.textContent = "Color: Black";
