@@ -1,5 +1,14 @@
 * {margin: 0; padding: 0;}
 
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: #999;
+  box-shadow: inset 20px 20px 20px #222;
+}
+
 .frame {
   --frame-thickness: 50px;
   --grid-height: 490px; /* remove defining this constant both here and in JS */
@@ -10,6 +19,8 @@
   background-color: var(--frame-color);
   border-radius: 20px;
   box-shadow: 10px 10px 10px 5px #222, 
+    inset 0 0 5px #222,
+    inset 0 0 20px #ffffff7f,
     inset 2px 2px 10px var(--frame-color), 
     inset 5px 5px 5px white;
 }
@@ -21,7 +32,8 @@
   top: var(--frame-thickness);
   left: var(--frame-thickness);
   box-shadow: 2px 2px 10px var(--frame-color),
-    3px 3px 5px white;
+    3px 3px 5px white,
+    0 0 20px #ffffff7f;
 }
 
 .grid::before {
