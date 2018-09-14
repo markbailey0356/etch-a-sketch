@@ -70,8 +70,7 @@ I have some further ideas to implement:
 * Add larger pen sizes
 * Integrate buttons into frame
 * Implement click-and-drag on the Magna-doodle frame
-* Clear the screen by shaking the frame back-and-forth
-* Invert the colours on the screen when switching color modes instead of clearing the grid
+* Clear the screen by a slider on the bottom of the frame
 * Change pen opacity
 * Add grid-lines to square grid
 * Add button to toggle grid-lines
