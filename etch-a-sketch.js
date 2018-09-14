@@ -155,7 +155,9 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
   
   grid.addEventListener("mouseover", function(event) {
     if (event.target.classList.contains("cell")) { // ensure only cells are targeted, not the whole grid
-      coloringFunction(event.target);
+      if (event.buttons == 1) { // draw when left mouse pressed
+        coloringFunction(event.target);
+      }
     }
   });
   
