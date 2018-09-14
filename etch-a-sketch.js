@@ -63,6 +63,15 @@ var Color = {
 
 const grid = document.getElementsByClassName("grid")[0];
 const DEFAULT_CELL_COLOR = Color.BLACK;
+setDefaultCellColor();
+
+function setDefaultCellColor(color = DEFAULT_CELL_COLOR) {
+  document.documentElement.style.setProperty("--default-cell-background-color", color.toRGB());
+}
+
+function getDefaultCellColor() {
+  return Object.create(Color).initFromRGB(getComputedStyle(document.documentElement).getPropertyValue("--default-cell-background-color"));
+}
 
 { // grid drawing
   const SIDE_BAR_WIDTH_IN_PIXELS = 120;
@@ -83,8 +92,6 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
     let squareWidth = Math.floor(GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares)) ;
     
     clearGrid();
-
-    document.documentElement.style.setProperty("--default-cell-background-color", DEFAULT_CELL_COLOR.toRGB())
     
     for (let i = 0; i < heightInSquares * widthInSquares; i++) {
       let square = document.createElement("div");
@@ -102,8 +109,7 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
     const hexagonHeight = GRID_HEIGHT_IN_PIXELS / heightInHexes;
     const hexagonSideLength = hexagonHeight / Math.sqrt(3);
     const hexagonBorder = 0.5;
-    
-    document.documentElement.style.setProperty("--default-cell-background-color", DEFAULT_CELL_COLOR.toRGB())
+
     document.documentElement.style.setProperty("--default-hexagon-margin-side-length", hexagonSideLength + "px")
     document.documentElement.style.setProperty("--default-hexagon-margin", hexagonBorder + "px");
 
@@ -152,13 +158,15 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
   let coloringFunction = drawColor;
   let penColor = Color.WHITE;
   let opacity = 0.5;
+  let leftMouseButtonColorMode = "add";
+  let rightMouseButtonColorMode = "subtract";
 
   grid.addEventListener("mouseover", function(event) {
     if (event.target.classList.contains("cell")) { // ensure only cells are targeted, not the whole grid
       if (event.buttons == 1) { // draw with left mouse button
-        coloringFunction(event.target, "add");
+        coloringFunction(event.target, leftMouseButtonColorMode);
       } else if (event.buttons == 2) { // erase with right mouse button
-        coloringFunction(event.target, "subtract");
+        coloringFunction(event.target, rightMouseButtonColorMode);
       }
     }
   });
@@ -168,7 +176,7 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
 
   function drawColor(element, colorMode) {
     let currentColor = element.style.getPropertyValue("--cell-background-color");
-    currentColor = currentColor ? Object.create(Color).initFromRGB(currentColor) : DEFAULT_CELL_COLOR;
+    currentColor = currentColor ? Object.create(Color).initFromRGB(currentColor) : getDefaultCellColor();
     colorMode = (colorMode == "subtract") ? Color.subtract.bind(currentColor) : Color.add.bind(currentColor);
     changeCellColor(element, colorMode(penColor.multiply(opacity)));
   }
@@ -192,25 +200,25 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
   
   const buttonColorWhite = document.getElementsByClassName("white-button")[0];
   buttonColorWhite.addEventListener("click", () => {
-    coloringFunction = penColor;
+    coloringFunction = drawColor;
     penColor = Color.WHITE;
   });
   
   const buttonColorRed = document.getElementsByClassName("red-button")[0];
   buttonColorRed.addEventListener("click", () => {
-    coloringFunction = penColor;
+    coloringFunction = drawColor;
     penColor = Color.RED;
   });
   
   const buttonColorGreen = document.getElementsByClassName("green-button")[0];
   buttonColorGreen.addEventListener("click", () => {
-    coloringFunction = penColor;
+    coloringFunction = drawColor;
     penColor = Color.GREEN;
   });
   
   const buttonColorBlue = document.getElementsByClassName("blue-button")[0];
   buttonColorBlue.addEventListener("click", () => {
-    coloringFunction = penColor;
+    coloringFunction = drawColor;
     penColor = Color.BLUE;
   });
   
@@ -218,6 +226,14 @@ const DEFAULT_CELL_COLOR = Color.BLACK;
   buttonColorRandom.addEventListener("click", () => coloringFunction = drawColorRandom);
 
   const buttonClearDrawing = document.getElementsByClassName("clear-drawing-button")[0];
-  buttonClearDrawing.addEventListener("click", clearDrawing)
+  buttonClearDrawing.addEventListener("click", clearDrawing);
+
+  (function changeDrawingMode(colorMode = "subtract") {
+    if (colorMode == "subtract") {
+      setDefaultCellColor(Color.WHITE);
+      leftMouseButtonColorMode = "subtract";
+      rightMouseButtonColorMode = "add";
+    }
+  })();
 }
 
