@@ -304,3 +304,30 @@ const DEFAULT_COLOR_MODE = "subtract";
   });
 }
 
+{ // make frame draggable
+  let currentlyDragged = false;
+  let previousClientX;
+  let previousClientY;
+
+  frame.style.left = getComputedStyle(frame).left;
+  frame.style.top = getComputedStyle(frame).top;
+
+  frame.addEventListener("dragstart", function(event) {
+    if (event.target == grid) {
+      event.preventDefault();
+    }
+    
+    currentlyDragged = true;
+    previousClientX = event.clientX;
+    previousClientY = event.clientY;
+  });
+
+  frame.addEventListener("dragend", function(event) {
+    let frameX = parseInt(frame.style.left);
+    let frameY = parseInt(frame.style.top);
+    frameX += (event.clientX - previousClientX);
+    frameY += (event.clientY - previousClientY);
+    frame.style.left = frameX + "px";
+    frame.style.top = frameY + "px";
+  });
+}
