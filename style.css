@@ -110,6 +110,32 @@ body {
   border-top: calc(var(--hexagon-height) / 2) solid transparent;
 }
 
+.clear-slider-frame {
+  position: absolute;
+  --slider-overflow: 10px;
+  height: 40px;
+  bottom: 0;
+  left: calc(var(--frame-thickness) - var(--slider-overflow));
+  width: calc(2*var(--slider-overflow) + var(--grid-width));
+  background-color: black;
+}
+
+.clear-slider-track {
+  position: absolute;
+  width: inherit;
+  height: 10px;
+  bottom: 15px;
+  background-color: white;
+}
+
+.clear-slider-handle {
+  position: absolute;
+  left: 0;
+  height: inherit;
+  width: 10px;
+  background-color: white;
+}
+
 .buttons {
   position: absolute;
   top: 100px;

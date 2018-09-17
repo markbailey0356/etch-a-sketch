@@ -151,12 +151,6 @@ const DEFAULT_COLOR_MODE = "subtract";
     }
   }
 
-  function clearCol(colNum) {
-    for (let cell of gridCols[colNum]) {
-      setCellColor(cell);
-    }
-  }
-
   function setGridLines(show = true) {
     const squareBorder = show ? 0.5 : 0;
     const hexagonBorder = show ? 0.5 : -0.5;
@@ -256,6 +250,12 @@ const DEFAULT_COLOR_MODE = "subtract";
     }
   }
 
+  function clearCol(colNum) {
+    for (let cell of gridCols[colNum]) {
+      setCellColor(cell);
+    }
+  }
+
   function invertDrawing(changeDefaultColoredCells = false) {
     for (let cell of Array.from(grid.children)) {
       if (cell.classList.contains("cell")) {
@@ -336,6 +336,32 @@ const DEFAULT_COLOR_MODE = "subtract";
   buttonChangeColorMode.addEventListener("click", function() {
     (colorMode == "add") ? changeDrawingMode("subtract") : changeDrawingMode("add");
   });
+
+  const clearSliderHandle = document.getElementsByClassName("clear-slider-handle")[0];
+  let clearSliderComputedStyle = getComputedStyle(clearSliderHandle)
+  clearSliderHandle.style.left = clearSliderComputedStyle.left;
+  
+  let sliderWidth = parseInt(clearSliderComputedStyle.width);
+  const clearSliderFrame = document.getElementsByClassName("clear-slider-frame")[0];
+  let sliderMaxX = parseInt(getComputedStyle(clearSliderFrame).width) - sliderWidth;
+  let sliderDragged = false;
+  let oldSliderX;
+  let oldMouseX;
+  clearSliderHandle.addEventListener("mousedown", function(event) {
+    sliderDragged = true;
+    oldMouseX = event.clientX;
+    oldSliderX = parseInt(clearSliderHandle.style.left);
+  });
+  window.addEventListener("mousemove", function(event) {
+    if (sliderDragged) {
+      let sliderX = oldSliderX + (event.clientX - oldMouseX);
+      sliderX = Color.clamp(sliderX, 0, sliderMaxX);
+      clearSliderHandle.style.left = sliderX + "px";
+    }
+  });
+  window.addEventListener("mouseup", function(event) {
+    sliderDragged = false;
+  });
 }
 
 { // make frame draggable
@@ -347,7 +373,7 @@ const DEFAULT_COLOR_MODE = "subtract";
   frame.style.top = getComputedStyle(frame).top;
 
   frame.addEventListener("dragstart", function(event) {
-    if (event.target == grid) {
+    if (event.target != frame) {
       event.preventDefault();
     }
     
