@@ -97,14 +97,18 @@ const DEFAULT_COLOR_MODE = "subtract";
     widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
     let squareWidth = GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares);
     
-    document.documentElement.style.setProperty("--default-square-height", squareWidth + "px");
+    document.documentElement.style.setProperty("--default-square-height", squareHeight + "px");
     document.documentElement.style.setProperty("--default-square-width", squareWidth + "px");
     
-    for (let i = 0; i < heightInSquares * widthInSquares; i++) {
-      let square = document.createElement("div");
-      square.classList.add("square");
-      square.classList.add("cell");
-      grid.appendChild(square);
+    for (let row = 0; row < heightInSquares; row++) {
+      for (let col = 0; col < widthInSquares; col++) {
+        let square = document.createElement("div");
+        square.classList.add("square");
+        square.classList.add("cell");
+        square.style.left = col * squareWidth + "px";
+        square.style.top = row * squareHeight + "px";
+        grid.appendChild(square);
+      }
     }
   }
   

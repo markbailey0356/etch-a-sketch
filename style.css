@@ -71,7 +71,7 @@ body {
   height: calc(var(--default-square-height) - 2*var(--default-square-border));
   border: var(--default-square-border) solid transparent;
   background-clip: padding-box;
-  float: left;
+  position: absolute;
 }
 
 .hexagon {  /* the central rectangle */
