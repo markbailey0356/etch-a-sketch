@@ -88,17 +88,17 @@ const DEFAULT_COLOR_MODE = "subtract";
   grid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
   
   drawHexGrid();
+  setGridLines();
   
   function drawSquareGrid(heightInSquares = DEFAULT_GRID_HEIGHT_IN_CELLS, widthInSquares) {
     clearGrid();
+    
     let squareHeight = GRID_HEIGHT_IN_PIXELS / Math.floor(heightInSquares);
     widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
     let squareWidth = GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares);
-    const squareBorder = 0.5;
     
     document.documentElement.style.setProperty("--default-square-height", squareWidth + "px");
     document.documentElement.style.setProperty("--default-square-width", squareWidth + "px");
-    document.documentElement.style.setProperty("--default-square-border", squareBorder + "px");
     
     for (let i = 0; i < heightInSquares * widthInSquares; i++) {
       let square = document.createElement("div");
@@ -110,13 +110,12 @@ const DEFAULT_COLOR_MODE = "subtract";
   
   function drawHexGrid(heightInHexes = DEFAULT_GRID_HEIGHT_IN_CELLS) { // currently only support regular hexagons, so only need height
     clearGrid();
+
     heightInHexes = Math.floor(heightInHexes * 2) / 2; // truncate to nearest 0.5
     const hexagonHeight = GRID_HEIGHT_IN_PIXELS / heightInHexes;
     const hexagonSideLength = hexagonHeight / Math.sqrt(3);
-    const hexagonBorder = 0.5;
 
     document.documentElement.style.setProperty("--default-hexagon-margin-side-length", hexagonSideLength + "px")
-    document.documentElement.style.setProperty("--default-hexagon-margin", hexagonBorder + "px");
 
     const numRows = heightInHexes*2 + 1;
     const numCols = Math.floor(2 * (GRID_WIDTH_IN_PIXELS / (3*hexagonSideLength)) + 1 + 1/3);
@@ -139,9 +138,15 @@ const DEFAULT_COLOR_MODE = "subtract";
       grid.removeChild(grid.lastChild);
     }
   }
+
+  function setGridLines(show = true) {
+    const squareBorder = show ? 0.5 : 0;
+    const hexagonBorder = show ? 0.5 : -0.5;
+    document.documentElement.style.setProperty("--default-square-border", squareBorder + "px");
+    document.documentElement.style.setProperty("--default-hexagon-margin", hexagonBorder + "px");
+  }
   
   const buttonSquareRedraw = document.getElementsByClassName("square-redraw-button")[0];
-  
   buttonSquareRedraw.addEventListener("click", function(event) {
     let newHeightInSquares = prompt("Please enter how many cells in height", DEFAULT_GRID_HEIGHT_IN_CELLS);
     if (newHeightInSquares) {
@@ -150,12 +155,18 @@ const DEFAULT_COLOR_MODE = "subtract";
   });
 
   const buttonHexRedraw = document.getElementsByClassName("hex-redraw-button")[0];
-  
   buttonHexRedraw.addEventListener("click", function(event) {
     let newHeightInHexs = prompt("Please enter how many cells in height", DEFAULT_GRID_HEIGHT_IN_CELLS);
     if (newHeightInHexs) {
       drawHexGrid(newHeightInHexs);
     }
+  });
+
+  let gridLinesShown = true;
+  const buttonToggleGridLines = document.getElementsByClassName("grid-lines-button")[0];
+  buttonToggleGridLines.addEventListener("click", function (event) {
+    gridLinesShown = !gridLinesShown;
+    setGridLines(gridLinesShown);
   });
 }
 

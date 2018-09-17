@@ -86,4 +86,3 @@ I have some further ideas to implement:
 * Integrate buttons into frame
 * Clear the screen by a slider on the bottom of the frame
 * Change pen opacity
-* Add button to toggle grid-lines
