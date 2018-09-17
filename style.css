@@ -54,17 +54,24 @@ body {
   pointer-events: none;
 }
 
-.square {
-  --cell-background-color: var(--default-cell-background-color);
-  background-color: var(--cell-background-color);
-  float: left;
-}
-
 :root {
   --default-hexagon-margin-side-length: 50px;
   --default-cell-background-color: black;
   --default-hexagon-margin: 1px;
+  --default-square-width: 50px;
+  --default-square-height: 50px;
+  --default-square-border: 1px;
   --frame-color: #3256bb;
+}
+
+.square {
+  --cell-background-color: var(--default-cell-background-color);
+  background-color: var(--cell-background-color);
+  width: calc(var(--default-square-width) - 2*var(--default-square-border));
+  height: calc(var(--default-square-height) - 2*var(--default-square-border));
+  border: var(--default-square-border) solid transparent;
+  background-clip: padding-box;
+  float: left;
 }
 
 .hexagon {  /* the central rectangle */

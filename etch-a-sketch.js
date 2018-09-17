@@ -90,18 +90,20 @@ const DEFAULT_COLOR_MODE = "subtract";
   drawHexGrid();
   
   function drawSquareGrid(heightInSquares = DEFAULT_GRID_HEIGHT_IN_CELLS, widthInSquares) {
+    clearGrid();
     let squareHeight = GRID_HEIGHT_IN_PIXELS / Math.floor(heightInSquares);
     widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
     let squareWidth = GRID_WIDTH_IN_PIXELS / Math.floor(widthInSquares);
+    const squareBorder = 0.5;
     
-    clearGrid();
+    document.documentElement.style.setProperty("--default-square-height", squareWidth + "px");
+    document.documentElement.style.setProperty("--default-square-width", squareWidth + "px");
+    document.documentElement.style.setProperty("--default-square-border", squareBorder + "px");
     
     for (let i = 0; i < heightInSquares * widthInSquares; i++) {
       let square = document.createElement("div");
       square.classList.add("square");
       square.classList.add("cell");
-      square.style.width = squareWidth + "px";
-      square.style.height = squareHeight + "px";
       grid.appendChild(square);
     }
   }
