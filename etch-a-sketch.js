@@ -78,13 +78,12 @@ var Color = {
 const grid = document.getElementsByClassName("grid")[0];
 const frame = document.getElementsByClassName("frame")[0];
 const DEFAULT_COLOR_MODE = "subtract";
+let gridCols = [];
 
 { // grid drawing
   const GRID_HEIGHT_IN_PIXELS = 490; 
   const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   const DEFAULT_GRID_HEIGHT_IN_CELLS = 32;
-
-  let gridCols = [];
   
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
   grid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
@@ -103,7 +102,9 @@ const DEFAULT_COLOR_MODE = "subtract";
     document.documentElement.style.setProperty("--default-square-width", squareWidth + "px");
     
     for (let col = 0; col < widthInSquares; col++) {
-      let currentCol = [];
+      let currentCol = {};
+      currentCol.x = col * squareWidth + squareWidth/2;
+      currentCol.cells = [];
       for (let row = 0; row < heightInSquares; row++) {
         let square = document.createElement("div");
         square.classList.add("square");
@@ -111,7 +112,7 @@ const DEFAULT_COLOR_MODE = "subtract";
         square.style.left = col * squareWidth + "px";
         square.style.top = row * squareHeight + "px";
         grid.appendChild(square);
-        currentCol.push(square);
+        currentCol.cells.push(square);
       }
       gridCols.push(currentCol);
     }
@@ -130,7 +131,9 @@ const DEFAULT_COLOR_MODE = "subtract";
     const numCols = Math.floor((GRID_WIDTH_IN_PIXELS / (1.5*hexagonSideLength)) + 2/3);
     for (let col = 0; col < numCols; col++) {
       let _left = col*(1.5*hexagonSideLength);
-      let currentCol = [];
+      let currentCol = {};
+      currentCol.x = _left + hexagonSideLength/2;
+      currentCol.cells = [];
       for (let row = 0; row < numRows + ((col+1) % 2); row++) {
         let _top = row * hexagonHeight - ((col+1) % 2)*(hexagonHeight/2);
         let hexagon = document.createElement("div");
@@ -139,7 +142,7 @@ const DEFAULT_COLOR_MODE = "subtract";
         hexagon.style.left = _left + "px";
         hexagon.style.top = _top + "px";
         grid.appendChild(hexagon);
-        currentCol.push(hexagon);
+        currentCol.cells.push(hexagon);
       }
       gridCols.push(currentCol);
     }
@@ -255,8 +258,22 @@ const DEFAULT_COLOR_MODE = "subtract";
     }
   }
 
-  function clearCol(colNum) {
-    for (let cell of gridCols[colNum]) {
+  function clearCols(x1, x2) {
+    if (x1 > x2) {
+      let temp = x1;
+      x1 = x2;
+      x2 = temp;
+    }
+    for (let col of gridCols) {
+      if (col.x >= x1 && col.x <= x2) {
+        clearCol(col);
+      }
+    }
+  }
+
+  function clearCol(col) {
+    col = typeof col == "number" ? gridCols[col].cells : col.cells;
+    for (let cell of col) {
       setCellColor(cell);
     }
   }
@@ -348,20 +365,26 @@ const DEFAULT_COLOR_MODE = "subtract";
   
   let sliderWidth = parseInt(clearSliderComputedStyle.width);
   const clearSliderFrame = document.getElementsByClassName("clear-slider-frame")[0];
-  let sliderMaxX = parseInt(getComputedStyle(clearSliderFrame).width) - sliderWidth;
+  let clearSliderFrameComputedStyle = getComputedStyle(clearSliderFrame);
+  let sliderOverflow = parseInt(clearSliderFrameComputedStyle.getPropertyValue("--slider-overflow"));
+  let sliderMaxX = parseInt(clearSliderFrameComputedStyle.width) - sliderWidth;
   let sliderDragged = false;
-  let oldSliderX;
-  let oldMouseX;
+  let origSliderX;
+  let origMouseX;
+  let prevSliderX;
   clearSliderHandle.addEventListener("mousedown", function(event) {
     sliderDragged = true;
-    oldMouseX = event.clientX;
-    oldSliderX = parseInt(clearSliderHandle.style.left);
+    origMouseX = event.clientX;
+    origSliderX = parseInt(clearSliderHandle.style.left);
+    prevSliderX = origSliderX;
   });
   window.addEventListener("mousemove", function(event) {
     if (sliderDragged) {
-      let sliderX = oldSliderX + (event.clientX - oldMouseX);
+      let sliderX = origSliderX + (event.clientX - origMouseX);
       sliderX = Color.clamp(sliderX, 0, sliderMaxX);
       clearSliderHandle.style.left = sliderX + "px";
+      clearCols(prevSliderX - sliderOverflow, sliderX - sliderOverflow);
+      prevSliderX = sliderX;
     }
   });
   window.addEventListener("mouseup", function(event) {
