@@ -83,6 +83,8 @@ const DEFAULT_COLOR_MODE = "subtract";
   const GRID_HEIGHT_IN_PIXELS = 490; 
   const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   const DEFAULT_GRID_HEIGHT_IN_CELLS = 32;
+
+  let gridCols = [];
   
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
   grid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
@@ -100,15 +102,18 @@ const DEFAULT_COLOR_MODE = "subtract";
     document.documentElement.style.setProperty("--default-square-height", squareHeight + "px");
     document.documentElement.style.setProperty("--default-square-width", squareWidth + "px");
     
-    for (let row = 0; row < heightInSquares; row++) {
-      for (let col = 0; col < widthInSquares; col++) {
+    for (let col = 0; col < widthInSquares; col++) {
+      let currentCol = [];
+      for (let row = 0; row < heightInSquares; row++) {
         let square = document.createElement("div");
         square.classList.add("square");
         square.classList.add("cell");
         square.style.left = col * squareWidth + "px";
         square.style.top = row * squareHeight + "px";
         grid.appendChild(square);
+        currentCol.push(square);
       }
+      gridCols.push(currentCol);
     }
   }
   
@@ -121,25 +126,34 @@ const DEFAULT_COLOR_MODE = "subtract";
 
     document.documentElement.style.setProperty("--default-hexagon-margin-side-length", hexagonSideLength + "px")
 
-    const numRows = heightInHexes*2 + 1;
-    const numCols = Math.floor(2 * (GRID_WIDTH_IN_PIXELS / (3*hexagonSideLength)) + 1 + 1/3);
-    for (let row = 0; row < numRows; row++) {
-      let _top = (hexagonHeight / 2) * (row - 1);
-      for (let col = 0; col < (numCols - (row % 2)) / 2; col++) { // actually loops over every second column per row
-        let _left = (row % 2)*(hexagonSideLength*1.5) + (hexagonSideLength * 3) * col;
+    const numRows = heightInHexes;
+    const numCols = Math.floor((GRID_WIDTH_IN_PIXELS / (1.5*hexagonSideLength)) + 2/3);
+    for (let col = 0; col < numCols; col++) {
+      let _left = col*(1.5*hexagonSideLength);
+      let currentCol = [];
+      for (let row = 0; row < numRows + ((col+1) % 2); row++) {
+        let _top = row * hexagonHeight - ((col+1) % 2)*(hexagonHeight/2);
         let hexagon = document.createElement("div");
         hexagon.classList.add("hexagon");
         hexagon.classList.add("cell");
         hexagon.style.left = _left + "px";
         hexagon.style.top = _top + "px";
         grid.appendChild(hexagon);
+        currentCol.push(hexagon);
       }
+      gridCols.push(currentCol);
     }
   }
   
   function clearGrid() {
     while (grid.lastChild) {
       grid.removeChild(grid.lastChild);
+    }
+  }
+
+  function clearCol(colNum) {
+    for (let cell of gridCols[colNum]) {
+      setCellColor(cell);
     }
   }
 
