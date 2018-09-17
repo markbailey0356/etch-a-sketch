@@ -63,13 +63,27 @@ to clear the grid and switch the color model between being additive and subtract
 Furthermore, I had to change a couple of user interface items between the modes as well; such as swapping the effects of
 the two mouse buttons, and changing the labels on the pen color buttons.
 
+## Magna-doodle frame
+
+The next step was to style the grid so that it displays inside a frame that looks like the original magna-doodle. This
+was as simple as a containing frame `div` with some appropriate css properties. I was surprised at what you could do
+aesthetically with just a list of `box-shadow` properties.
+
+I also wanted the frame to be re-positionable by clicking and dragging the frame. This turned out to be possible by
+setting the frame to `draggable="true"` in the HTML and implementing `dragstart` and `dragend` event listeners.
+Unfortunately, this had the unwanted side effect of making the frame drag when clicking to draw on the grid, which is a
+child of frame. I figured that this should have been able to be prevented by checking the `target` properties of the
+drag events and calling `preventDefault()` if the target is the grid. This, however, wasn't working.
+Counter-intuitively, the solution to this was to also set `draggable="true"` on the grid container as well, so that the
+drag events would fire when the grid was the `target` and `preventDefault()` could be called accordingly.
+
+Now, I just have to integrate the buttons into the frame...
+
 ## To-do list
 
 I have some further ideas to implement:
 
-* Add larger pen sizes
 * Integrate buttons into frame
-* Implement click-and-drag on the Magna-doodle frame
 * Clear the screen by a slider on the bottom of the frame
 * Change pen opacity
 * Add grid-lines to square grid
