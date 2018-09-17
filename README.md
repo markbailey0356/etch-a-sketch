@@ -84,6 +84,10 @@ Now, I just have to integrate the buttons into the frame...
 I have some further ideas to implement:
 
 * Integrate buttons into frame
+<<<<<<< HEAD
+=======
+* Implement click-and-drag on the Magna-doodle frame
+>>>>>>> fa50a0d55dca4c42ec02d21a9a49f669435d317c
 * Clear the screen by a slider on the bottom of the frame
 * Change pen opacity
 * Add grid-lines to square grid
