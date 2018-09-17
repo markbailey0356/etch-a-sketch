@@ -194,14 +194,19 @@ const DEFAULT_COLOR_MODE = "subtract";
   let rightMouseButtonColorMode;
   let colorMode;
 
+  let currentlyDrawing = false;
+  grid.addEventListener("mousedown", function(event) {
+    currentlyDrawing = true;
+    makeMouseColor(event);
+  });
   grid.addEventListener("mouseover", makeMouseColor);
-  grid.addEventListener("mousedown", makeMouseColor);
+  window.addEventListener("mouseup", () => currentlyDrawing = false);
 
   grid.addEventListener("contextmenu", event => event.preventDefault());
   grid.addEventListener("dragstart", event => event.preventDefault());
 
   function makeMouseColor(event) {
-    if (event.target.classList.contains("cell")) { // ensure only cells are targeted, not the whole grid
+    if (currentlyDrawing && event.target.classList.contains("cell")) { // ensure only cells are targeted, not the whole grid
       if (event.buttons == 1) { // draw with left mouse button
         coloringFunction(event.target, leftMouseButtonColorMode);
       } else if (event.buttons == 2) { // erase with right mouse button
