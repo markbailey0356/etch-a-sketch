@@ -372,7 +372,7 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: var(--grid-height);
+  height: calc(var(--grid-height));
   width: 10px;
   position: absolute;
   right: 0;
