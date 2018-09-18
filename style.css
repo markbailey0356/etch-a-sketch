@@ -64,6 +64,10 @@ body {
   --frame-color: #3256bb;
 }
 
+.cell, .grid {
+  transition: border 0.1s, background-color 0.1s;
+}
+
 .square {
   --cell-background-color: var(--default-cell-background-color);
   background-color: var(--cell-background-color);
@@ -97,6 +101,7 @@ body {
   border-right: calc(var(--hexagon-side-length) / 2) solid var(--cell-background-color);
   border-bottom: calc(var(--hexagon-height) / 2) solid transparent;
   border-top: calc(var(--hexagon-height) / 2) solid transparent;
+  transition: inherit;
 }
 
 .hexagon:after { /* the right triangle */
@@ -108,6 +113,7 @@ body {
   border-left: calc(var(--hexagon-side-length) / 2) solid var(--cell-background-color);
   border-bottom: calc(var(--hexagon-height) / 2) solid transparent;
   border-top: calc(var(--hexagon-height) / 2) solid transparent;
+  transition: inherit;
 }
 
 .clear-slider-frame {

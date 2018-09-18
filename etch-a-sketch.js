@@ -287,6 +287,20 @@ let gridCols = [];
       }
     }
   }
+
+  function invertCol(col) {
+    col = typeof col == "number" ? gridCols[col].cells : col.cells;
+    for (let cell of col) {
+      setCellColor(cell, getCellColor(cell).invert());
+    }
+  }
+
+  function invertDrawingByCols(col = 0) {
+    if (gridCols[col]) {
+      invertCol(col);
+      setTimeout(() => invertDrawingByCols(col + 1), 0);
+    }
+  }
   
   const buttonColorWhite = document.getElementsByClassName("white-button")[0];
   buttonColorWhite.addEventListener("click", () => {
