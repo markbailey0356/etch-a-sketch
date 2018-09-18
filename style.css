@@ -13,8 +13,9 @@ body {
   --frame-thickness: 50px;
   --grid-height: 490px; /* remove defining this constant both here and in JS */
   --grid-width: calc(5 / 3 * var(--grid-height));
+  --frame-width: calc(var(--grid-width) + 2 * var(--frame-thickness));
   position: absolute;
-  width: calc(var(--grid-width) + 2 * var(--frame-thickness));
+  width: var(--frame-width);
   height: calc(var(--grid-height) + 2 * var(--frame-thickness));
   top: 100px;
   left: 150px;
@@ -229,4 +230,40 @@ button {
   height: 50px;
   width: 100px;
   box-shadow: 2px 2px 2px #222;
+}
+
+.toggle-grid-type-button {
+  position: absolute;
+  left: calc(var(--frame-width)/2 - var(--width)/2);
+}
+
+.horiz-switch {
+  --width: 40px;
+  --handle-width: calc(var(--width)/2);
+  --hover-left: 2px;
+  width: var(--width);
+  height: 20px;
+  background-color: black;
+}
+
+.horiz-switch:before {
+  content: "";
+  position: absolute;
+  height: inherit;
+  width: var(--handle-width);
+  background-color: white;
+  left: 0;
+  transition: left 0.1s, transform 0.5s;
+}
+
+.horiz-switch:hover:before {
+  left: var(--hover-left);
+}
+
+.horiz-switch.toggled:before {
+  transform: translate(calc(var(--width) - var(--handle-width)),0);
+}
+
+.horiz-switch.toggled:hover:before {
+  left: calc(-1 * var(--hover-left));
 }

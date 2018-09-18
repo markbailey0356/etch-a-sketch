@@ -84,7 +84,8 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
 
 { // grid drawing
   const DEFAULT_GRID_HEIGHT_IN_CELLS = 32;
-  
+  let currentGridType;
+
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
   grid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
   
@@ -93,6 +94,8 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   
   function drawSquareGrid(heightInSquares = DEFAULT_GRID_HEIGHT_IN_CELLS, widthInSquares) {
     clearGrid();
+
+    currentGridType = "square";
     
     let squareHeight = GRID_HEIGHT_IN_PIXELS / Math.floor(heightInSquares);
     widthInSquares = widthInSquares || Math.floor(GRID_WIDTH_IN_PIXELS / squareHeight);
@@ -120,6 +123,8 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   
   function drawHexGrid(heightInHexes = DEFAULT_GRID_HEIGHT_IN_CELLS) { // currently only support regular hexagons, so only need height
     clearGrid();
+
+    currentGridType = "hex";
 
     heightInHexes = Math.floor(heightInHexes * 2) / 2; // truncate to nearest 0.5
     const hexagonHeight = GRID_HEIGHT_IN_PIXELS / heightInHexes;
@@ -162,20 +167,10 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
     document.documentElement.style.setProperty("--default-hexagon-margin", hexagonBorder + "px");
   }
   
-  const buttonSquareRedraw = document.getElementsByClassName("square-redraw-button")[0];
-  buttonSquareRedraw.addEventListener("click", function(event) {
-    let newHeightInSquares = prompt("Please enter how many cells in height", DEFAULT_GRID_HEIGHT_IN_CELLS);
-    if (newHeightInSquares) {
-      drawSquareGrid(newHeightInSquares);
-    }
-  });
-
-  const buttonHexRedraw = document.getElementsByClassName("hex-redraw-button")[0];
-  buttonHexRedraw.addEventListener("click", function(event) {
-    let newHeightInHexs = prompt("Please enter how many cells in height", DEFAULT_GRID_HEIGHT_IN_CELLS);
-    if (newHeightInHexs) {
-      drawHexGrid(newHeightInHexs);
-    }
+  const buttonToggleGridType = document.getElementsByClassName("toggle-grid-type-button")[0];
+  buttonToggleGridType.addEventListener("click", function(event) {
+    buttonToggleGridType.classList.toggle("toggled");
+    setTimeout(() => currentGridType == "hex" ? drawSquareGrid() : drawHexGrid(), 500);
   });
 
   let gridLinesShown = true;
@@ -336,9 +331,6 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   
   const buttonColorRandom = document.getElementsByClassName("random-button")[0];
   buttonColorRandom.addEventListener("click", () => coloringFunction = drawColorRandom);
-
-  const buttonClearDrawing = document.getElementsByClassName("clear-drawing-button")[0];
-  buttonClearDrawing.addEventListener("click", clearDrawing);
 
   function setDefaultCellColor(color) {
     document.documentElement.style.setProperty("--default-cell-background-color", color.stretch(COLOR_STRETCH_FACTOR, COLOR_STRETCH_CENTER).toRGB());
