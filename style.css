@@ -17,8 +17,6 @@ body {
   position: absolute;
   width: var(--frame-width);
   height: calc(var(--grid-height) + 2 * var(--frame-thickness));
-  top: 100px;
-  left: 150px;
   background-color: var(--frame-color);
   border-radius: 20px;
   box-shadow: 10px 10px 10px 5px #222, 

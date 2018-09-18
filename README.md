@@ -84,3 +84,4 @@ Now, I just have to integrate the buttons into the frame...
 I have some further ideas to implement:
 
 * Change pen opacity
+* Reposition frame on window resize

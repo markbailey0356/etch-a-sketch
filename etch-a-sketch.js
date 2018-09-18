@@ -429,8 +429,8 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   let previousClientX;
   let previousClientY;
 
-  frame.style.left = getComputedStyle(frame).left;
-  frame.style.top = getComputedStyle(frame).top;
+  frame.style.left = window.innerWidth/2 - parseInt(getComputedStyle(frame).width)/2 + "px";
+  frame.style.top = window.innerHeight/2 - parseInt(getComputedStyle(frame).height)/2 + "px";
 
   frame.addEventListener("dragstart", function(event) {
     if (event.target != frame) {
