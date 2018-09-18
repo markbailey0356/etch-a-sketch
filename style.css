@@ -242,6 +242,10 @@ button {
   --hexagon-margin: 0px;
   position: relative;
   --cell-background-color: var(--frame-color);
+  filter: drop-shadow( 0 0 1px gold);
+}
+
+.toggle-grid-type-button.toggled .label .hexagon {
   filter: drop-shadow( 0 0 1px black);
 }
 
@@ -253,6 +257,10 @@ button {
   filter: drop-shadow( 0 0 1px black);
 }
 
+.toggle-grid-type-button.toggled .label .square{
+  filter: drop-shadow( 0 0 1px gold);
+}
+
 .horiz-switch .label {
   position: absolute;
   bottom: calc(-1*var(--height));
@@ -261,6 +269,7 @@ button {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  left: 1px;
 }
 
 .horiz-switch {
