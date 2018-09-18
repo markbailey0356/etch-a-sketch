@@ -366,7 +366,6 @@ let gridCols = [];
   let sliderWidth = parseInt(clearSliderComputedStyle.width);
   const clearSliderFrame = document.getElementsByClassName("clear-slider-frame")[0];
   let clearSliderFrameComputedStyle = getComputedStyle(clearSliderFrame);
-  let sliderOverflow = parseInt(clearSliderFrameComputedStyle.getPropertyValue("--slider-overflow"));
   let sliderMaxX = parseInt(clearSliderFrameComputedStyle.width) - sliderWidth;
   let sliderDragged = false;
   let origSliderX;
@@ -383,7 +382,7 @@ let gridCols = [];
       let sliderX = origSliderX + (event.clientX - origMouseX);
       sliderX = Color.clamp(sliderX, 0, sliderMaxX);
       clearSliderHandle.style.left = sliderX + "px";
-      clearCols(prevSliderX - sliderOverflow, sliderX - sliderOverflow);
+      clearCols(prevSliderX, sliderX);
       prevSliderX = sliderX;
     }
   });
