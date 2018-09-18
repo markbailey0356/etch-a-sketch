@@ -152,6 +152,7 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
     while (grid.lastChild) {
       grid.removeChild(grid.lastChild);
     }
+    gridCols = [];
   }
 
   function setGridLines(show = true) {
@@ -299,13 +300,13 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
     if (gridCols[col]) {
       newGrid.style.width = gridCols[col].x +  "px";
       invertCol(col);
-      setTimeout(() => invertDrawingByCols(newGrid, col + 1), 0);
+      setTimeout(() => invertDrawingByCols(newGrid, col + 1), 20);
     } else {
       newGrid.style.width = GRID_WIDTH_IN_PIXELS + "px";
       setTimeout(() => {
         setDrawingMode(colorMode == "add" ? "subtract" : "add");
         newGrid.remove();
-      }, 50);
+      }, 20);
     }
   }
   
@@ -384,9 +385,7 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   }
 
   const buttonChangeColorMode = document.getElementsByClassName("change-color-mode-button")[0];
-  buttonChangeColorMode.addEventListener("click", function() {
-    invertDrawingByCols();
-  });
+  buttonChangeColorMode.addEventListener("click", () => invertDrawingMode() );
 
   const clearSliderHandle = document.getElementsByClassName("clear-slider-handle")[0];
   let clearSliderComputedStyle = getComputedStyle(clearSliderHandle)
