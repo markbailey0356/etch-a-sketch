@@ -63,6 +63,7 @@ body {
   --default-square-height: 50px;
   --default-square-border: 1px;
   --frame-color: #3256bb;
+  --frame-color-dark: #253f86;
 }
 
 .cell {
@@ -254,7 +255,7 @@ button {
   --height: 25px;
   height: var(--height);
   width: var(--width);
-  background-color: #253f86;
+  background-color: var(--frame-color-dark);
   box-shadow: inset 0 5px #999,
     0 -15px #999,
     inset 0 10px 5px -5px white,
@@ -301,37 +302,45 @@ button {
   left: calc(-1 * var(--hover-left));
 }
 
-.toggle-grid-type-button {
-  position: absolute;
-  left: calc(var(--frame-width)/2 - var(--width)/2);
-}
-
-.toggle-grid-type-button .label .hexagon {
-  --hexagon-margin-side-length: 8px;
-  --hexagon-margin: 0px;
-  --cell-background-color: var(--frame-color);
-}
-
-.toggle-grid-type-button .label .square {
-  width: 12px;
-  height: 12px;
-  --cell-background-color: var(--frame-color);
-}
-
-:not(.toggled)>.label>.toggled-label {
+/* :not(.toggled)>.label>.toggled-label {
   filter: drop-shadow( 0 0 1px black);
 }
 
 .toggled .default-label {
   filter: drop-shadow( 0 0 1px black);
-}
+} */
 
 :not(.toggled)>.label>.default-label {
   filter: drop-shadow( 0 0 2px gold);
 }
 
-.toggled .toggled-label {
+.toggled>.label>.toggled-label {
   filter: drop-shadow( 0 0 2px gold);
+}
+
+.label .hexagon {
+  --hexagon-margin-side-length: 8px;
+  --hexagon-margin: 0px;
+  --cell-background-color: var(--frame-color);
+}
+
+.label .square {
+  width: 12px;
+  height: 12px;
+  --cell-background-color: var(--frame-color);
+}
+
+.toggle-grid-type-button {
+  position: absolute;
+  left: calc(var(--frame-width)/2 - var(--width)/2);
+}
+
+.toggle-grid-type-button .hexagon {
+  --cell-background-color: var(--frame-color-dark);
+}
+
+.toggle-grid-type-button .square {
+  --cell-background-color: var(--frame-color-dark);
 }
 
 .change-color-mode-button {
@@ -339,14 +348,24 @@ button {
   left: calc(var(--frame-width)/4 - var(--width)/2);
 }
 
-.change-color-mode-button .label .hexagon {
-  --hexagon-margin-side-length: 8px;
-}
-
-.hexagon.black {
+.label .black {
   --cell-background-color: #2a2a2a;
 }
 
-.hexagon.white {
+.label .white {
   --cell-background-color: #d7d7d7;
+}
+
+.grid-lines-button {
+  position: absolute;
+  left: calc(var(--frame-width)*3/4 - var(--width)/2);
+}
+
+
+.grid-lines-button .default-label {
+  border: 1px solid black;
+}
+
+.grid-lines-button .toggled-label {
+  border: 1px dashed black;
 }

@@ -168,16 +168,27 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   }
   
   const buttonToggleGridType = document.getElementsByClassName("toggle-grid-type-button")[0];
+  const colorModeLabelWhite = document.querySelector(".label .white");
+  const colorModeLabelBlack = document.querySelector(".label .black");
   buttonToggleGridType.addEventListener("click", function(event) {
     buttonToggleGridType.classList.toggle("toggled");
-    setTimeout(() => currentGridType == "hex" ? drawSquareGrid() : drawHexGrid(), 500);
+    setTimeout(() => {
+      colorModeLabelWhite.classList.toggle("hexagon");
+      colorModeLabelBlack.classList.toggle("hexagon");
+      colorModeLabelWhite.classList.toggle("square");
+      colorModeLabelBlack.classList.toggle("square");
+      currentGridType == "hex" ? drawSquareGrid() : drawHexGrid()
+    }, 500);
   });
 
   let gridLinesShown = true;
   const buttonToggleGridLines = document.getElementsByClassName("grid-lines-button")[0];
   buttonToggleGridLines.addEventListener("click", function (event) {
-    gridLinesShown = !gridLinesShown;
-    setGridLines(gridLinesShown);
+    buttonToggleGridLines.classList.toggle("toggled");
+    setTimeout(() => {
+      gridLinesShown = !gridLinesShown;
+      setGridLines(gridLinesShown);
+    }, 500);
   });
 }
 
