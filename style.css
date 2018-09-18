@@ -369,14 +369,15 @@ button {
 }
 
 .colors {
+  --height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(var(--grid-height));
+  height: var(--height);
   width: 10px;
   position: absolute;
   right: 0;
-  top: var(--frame-thickness);
+  top: calc(var(--frame-thickness) + var(--grid-height)/2 - var(--height)/2);
 }
 
 .color-button {
@@ -385,6 +386,7 @@ button {
   width: 10px;
   transition: transform 0.5s, width 0.5s, background-color 0.5s;
   position: relative;
+  box-shadow: 10px 5px 0 #222;
 }
 
 .color-button::after {
@@ -404,7 +406,8 @@ button {
   width: inherit;
   background-color: var(--frame-color);
   box-shadow: inset 2px 1px 2px #ffffff7f,
-    1px 1px 1px #0000007f;
+    1px 1px 1px #0000007f,
+    8px 10px 10px #222;
   transition: inherit;
   position: absolute;
   top: 0;
@@ -428,6 +431,7 @@ button {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   pointer-events: none;
+  box-shadow: 12px 10px 10px #222;
 }
 
 .color-button:hover .color-tray {
@@ -436,7 +440,8 @@ button {
 
 .color-button.toggled .color-tray {
   width: 30px;
-  box-shadow: inset 0 0 5px gold;
+  box-shadow: inset 0 0 5px gold,
+    12px 10px 10px #222;
 }
 
 .color-button.toggled .color-lid {
