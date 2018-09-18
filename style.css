@@ -370,7 +370,7 @@ button {
   border: 1px dashed black;
 }
 
-.colours {
+.colors {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -381,15 +381,15 @@ button {
   top: var(--frame-thickness);
 }
 
-.colour-button {
+.color-button {
   --tray-color: black;
   height: 30px; 
   width: 10px;
-  transition: transform 0.5s, width 0.5s;
+  transition: transform 0.5s, width 0.5s, background-color 0.5s;
   position: relative;
 }
 
-.colour-button::after {
+.color-button::after {
   content: "";
   position: absolute;
   width: inherit;
@@ -398,9 +398,10 @@ button {
   transition: inherit;
   top: 0;
   left: 0;
+  pointer-events: none;
 }
 
-.colour-lid {
+.color-lid {
   height: inherit;
   width: inherit;
   background-color: var(--frame-color);
@@ -410,13 +411,14 @@ button {
   position: absolute;
   top: 0;
   left: 0;
+  pointer-events: none;
 }
 
-.colour-button:hover .colour-lid {
+.color-button:hover .color-lid {
   transform: translate(20px, 0);
 }
 
-.colour-tray {
+.color-tray {
   height: 30px;
   width: 0;
   background-color: var(--tray-color);
@@ -427,17 +429,18 @@ button {
   border-bottom: 2px solid var(--frame-color);
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
+  pointer-events: none;
 }
 
-.colour-button:hover .colour-tray {
+.color-button:hover .color-tray {
   width: 20px;
 }
 
-.colour-button.toggled .colour-tray {
+.color-button.toggled .color-tray {
   width: 30px;
   box-shadow: inset 0 0 5px gold;
 }
 
-.colour-button.toggled .colour-lid {
+.color-button.toggled .color-lid {
   transform: translate(30px, 0);
 }

@@ -73,6 +73,9 @@ var Color = {
   get RED() {return this._RED = this._RED || Object.create(Color).init(255,0,0)},
   get GREEN() {return this._GREEN = this._GREEN || Object.create(Color).init(0,255,0)},
   get BLUE() {return this._BLUE = this._BLUE || Object.create(Color).init(0,0,255)},
+  get CYAN() {return this._CYAN = this._CYAN || Object.create(Color).init(0,255,255)},
+  get MAGENTA() {return this._MAGENTA = this._MAGENTA || Object.create(Color).init(255,0,255)},
+  get YELLOW() {return this._YELLOW = this._YELLOW || Object.create(Color).init(255,255,0)}
 }
 
 const grid = document.getElementsByClassName("grid")[0];
@@ -228,7 +231,7 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   function drawColor(element, colorMode) {
     let currentColor = getCellColor(element);
     colorMode = (colorMode == "subtract") ? Color.subtract.bind(currentColor) : Color.add.bind(currentColor);
-    setCellColor(element, colorMode(penColor.multiply(opacity)));
+    setCellColor(element, colorMode(penColor.invert().multiply(opacity)));
   }
   
   function drawColorRandom(element) {
@@ -315,30 +318,36 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
       }, 100);
     }
   }
+
+  const colorButtons = Array.from(document.getElementsByClassName("color-button"));
+  setColorButtonPalette();
+  function setColorButtonPalette(colorMode = DEFAULT_COLOR_MODE) {
+    for (let button of colorButtons) {
+      let newColor = Color[button.getAttribute("data-color").toUpperCase()];
+      newColor = colorMode == DEFAULT_COLOR_MODE ? newColor : newColor.invert();
+      newColor = newColor.stretch(COLOR_STRETCH_FACTOR, COLOR_STRETCH_CENTER).toRGB();
+      button.style.setProperty("--tray-color", newColor);
+    }
+  }
+
+  setTimeout(() => makeActiveColorButton(colorButtons[0]), 0);
   
-  const buttonColorBlack = document.getElementsByClassName("black-button")[0];
-  buttonColorBlack.addEventListener("click", () => {
-    coloringFunction = drawColor;
-    penColor = Color.WHITE;
+  const colorButtonContainer = document.getElementsByClassName("colors")[0];
+  colorButtonContainer.addEventListener("click", (event) => {
+    if (event.target.classList.contains("color-button")) {
+      makeActiveColorButton(event.target);
+    }
   });
-  
-  const buttonColorRed = document.getElementsByClassName("red-button")[0];
-  buttonColorRed.addEventListener("click", () => {
+
+  function makeActiveColorButton(button) {
+    for (let button of colorButtons) {
+      button.classList.remove("toggled");
+    }
+    button.classList.add("toggled");
     coloringFunction = drawColor;
-    penColor = Color.RED;
-  });
-  
-  const buttonColorGreen = document.getElementsByClassName("green-button")[0];
-  buttonColorGreen.addEventListener("click", () => {
-    coloringFunction = drawColor;
-    penColor = Color.GREEN;
-  });
-  
-  const buttonColorBlue = document.getElementsByClassName("blue-button")[0];
-  buttonColorBlue.addEventListener("click", () => {
-    coloringFunction = drawColor;
-    penColor = Color.BLUE;
-  });
+    let newColor = button.getAttribute("data-color");
+    penColor = Color[newColor.toUpperCase()];
+  }
 
   function setDefaultCellColor(color) {
     document.documentElement.style.setProperty("--default-cell-background-color", color.stretch(COLOR_STRETCH_FACTOR, COLOR_STRETCH_CENTER).toRGB());
@@ -359,19 +368,11 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
       grid.style.backgroundColor = Color.BLACK.stretch(GRIDLINE_STRETCH_FACTOR).toRGB();
       leftMouseButtonColorMode = "add";
       rightMouseButtonColorMode = "subtract";
-      // buttonColorWhite.textContent = "Color: White";
-      // buttonColorRed.textContent = "Color: Red";
-      // buttonColorGreen.textContent = "Color: Green";
-      // buttonColorBlue.textContent = "Color: Blue";
     } else if (_colorMode == "subtract") {
       setDefaultCellColor(Color.WHITE);
       grid.style.backgroundColor = Color.WHITE.stretch(GRIDLINE_STRETCH_FACTOR).toRGB();
       leftMouseButtonColorMode = "subtract";
       rightMouseButtonColorMode = "add";
-      // buttonColorWhite.textContent = "Color: Black";
-      // buttonColorRed.textContent = "Color: Cyan";
-      // buttonColorGreen.textContent = "Color: Magenta";
-      // buttonColorBlue.textContent = "Color: Yellow";
     }
   }
 
@@ -387,6 +388,7 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   const buttonChangeColorMode = document.getElementsByClassName("change-color-mode-button")[0];
   buttonChangeColorMode.addEventListener("click", () => {
     buttonChangeColorMode.classList.toggle("toggled");
+    setColorButtonPalette(colorMode == "subtract" ? "add" : "subtract");
     setTimeout(() => invertDrawingMode(), 500);
   });
 

@@ -83,7 +83,4 @@ Now, I just have to integrate the buttons into the frame...
 
 I have some further ideas to implement:
 
-* Integrate buttons into frame
-* Clear the screen by a slider on the bottom of the frame
 * Change pen opacity
-* Add color transition to grid cells
