@@ -237,6 +237,32 @@ button {
   left: calc(var(--frame-width)/2 - var(--width)/2);
 }
 
+.toggle-grid-type-button .label .hexagon {
+  --hexagon-margin-side-length: 8px;
+  --hexagon-margin: 0px;
+  position: relative;
+  --cell-background-color: var(--frame-color);
+  filter: drop-shadow( 0 0 1px black);
+}
+
+.toggle-grid-type-button .label .square {
+  width: 12px;
+  height: 12px;
+  position: relative;
+  --cell-background-color: var(--frame-color);
+  filter: drop-shadow( 0 0 1px black);
+}
+
+.horiz-switch .label {
+  position: absolute;
+  bottom: calc(-1*var(--height));
+  width: inherit;
+  height: inherit;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .horiz-switch {
   --width: 50px;
   --handle-width: calc(var(--width)/2);
