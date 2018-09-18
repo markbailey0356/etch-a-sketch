@@ -79,10 +79,10 @@ const grid = document.getElementsByClassName("grid")[0];
 const frame = document.getElementsByClassName("frame")[0];
 const DEFAULT_COLOR_MODE = "subtract";
 let gridCols = [];
+const GRID_HEIGHT_IN_PIXELS = 490;
+const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
 
 { // grid drawing
-  const GRID_HEIGHT_IN_PIXELS = 490; 
-  const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   const DEFAULT_GRID_HEIGHT_IN_CELLS = 32;
   
   grid.style.width = GRID_WIDTH_IN_PIXELS + "px";
@@ -295,10 +295,17 @@ let gridCols = [];
     }
   }
 
-  function invertDrawingByCols(col = 0) {
+  function invertDrawingByCols(newGrid, col = 0) {
     if (gridCols[col]) {
+      newGrid.style.width = gridCols[col].x +  "px";
       invertCol(col);
-      setTimeout(() => invertDrawingByCols(col + 1), 0);
+      setTimeout(() => invertDrawingByCols(newGrid, col + 1), 0);
+    } else {
+      newGrid.style.width = GRID_WIDTH_IN_PIXELS + "px";
+      setTimeout(() => {
+        setDrawingMode(colorMode == "add" ? "subtract" : "add");
+        newGrid.remove();
+      }, 50);
     }
   }
   
@@ -342,14 +349,13 @@ let gridCols = [];
         .unstretch(COLOR_STRETCH_FACTOR, COLOR_STRETCH_CENTER);
   }
 
-  changeDrawingMode();
+  setDrawingMode();
 
-  function changeDrawingMode(_colorMode = DEFAULT_COLOR_MODE) {
+  function setDrawingMode(_colorMode = DEFAULT_COLOR_MODE) {
     colorMode = _colorMode;
-    invertDrawing();
     if (_colorMode == "add") {
       setDefaultCellColor(Color.BLACK);
-      grid.style.backgroundColor = Color.BLACK.stretch(GRIDLINE_STRETCH_FACTOR).toRGB();;
+      grid.style.backgroundColor = Color.BLACK.stretch(GRIDLINE_STRETCH_FACTOR).toRGB();
       leftMouseButtonColorMode = "add";
       rightMouseButtonColorMode = "subtract";
       buttonColorWhite.textContent = "Color: White";
@@ -368,9 +374,18 @@ let gridCols = [];
     }
   }
 
+  function invertDrawingMode() {
+    let newGridColor = colorMode == "add" ? Color.WHITE : Color.BLACK;
+    let newGrid = document.createElement("div");
+    newGrid.style.height = GRID_HEIGHT_IN_PIXELS + "px";
+    newGrid.style.backgroundColor = newGridColor.stretch(GRIDLINE_STRETCH_FACTOR).toRGB();
+    grid.appendChild(newGrid);
+    invertDrawingByCols(newGrid);
+  }
+
   const buttonChangeColorMode = document.getElementsByClassName("change-color-mode-button")[0];
   buttonChangeColorMode.addEventListener("click", function() {
-    (colorMode == "add") ? changeDrawingMode("subtract") : changeDrawingMode("add");
+    invertDrawingByCols();
   });
 
   const clearSliderHandle = document.getElementsByClassName("clear-slider-handle")[0];
