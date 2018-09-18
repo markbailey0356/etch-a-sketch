@@ -301,7 +301,7 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
       setTimeout(() => {
         setDrawingMode(colorMode == "add" ? "subtract" : "add");
         newGrid.remove();
-      }, 20);
+      }, 100);
     }
   }
   
@@ -377,7 +377,10 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   }
 
   const buttonChangeColorMode = document.getElementsByClassName("change-color-mode-button")[0];
-  buttonChangeColorMode.addEventListener("click", () => invertDrawingMode() );
+  buttonChangeColorMode.addEventListener("click", () => {
+    buttonChangeColorMode.classList.toggle("toggled");
+    setTimeout(() => invertDrawingMode(), 500);
+  });
 
   const clearSliderHandle = document.getElementsByClassName("clear-slider-handle")[0];
   let clearSliderComputedStyle = getComputedStyle(clearSliderHandle)
