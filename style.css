@@ -238,32 +238,55 @@ button {
 }
 
 .horiz-switch {
-  --width: 40px;
+  --width: 50px;
   --handle-width: calc(var(--width)/2);
   --hover-left: 2px;
+  --height: 25px;
+  height: var(--height);
   width: var(--width);
-  height: 20px;
-  background-color: black;
+  background-color: #253f86;
+  box-shadow: inset 0 5px #999,
+    0 -15px #999,
+    inset 0 10px 5px -5px white,
+    0 5px 15px #ffffff7f,
+    2px 2px 5px var(--frame-color),
+    2px 2px 5px white;
 }
 
-.horiz-switch:before {
-  content: "";
+.horiz-switch .handle {
   position: absolute;
   height: inherit;
   width: var(--handle-width);
-  background-color: white;
+  background-color: #3256bb;
   left: 0;
   transition: left 0.1s, transform 0.5s;
+  box-shadow: inset 0 5px 5px -5px white,
+    inset 0 2px 5px var(--frame-color),
+    inset 0 2px 5px white,
+    2px 2px 2px #0000007f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.horiz-switch:hover:before {
+.horiz-switch .handle .notch {
+  height: calc(var(--height)/2);
+  width: 3px;
+  margin: 1.5px;
+  background-color: var(--frame-color);
+  display: inline-block;
+  box-shadow: inset 1px 1px 1px #ffffff7f,
+    1px 1px 1px #0000007f;
+}
+
+.horiz-switch:hover .handle {
   left: var(--hover-left);
 }
 
-.horiz-switch.toggled:before {
+.horiz-switch.toggled .handle {
   transform: translate(calc(var(--width) - var(--handle-width)),0);
 }
 
-.horiz-switch.toggled:hover:before {
+.horiz-switch.toggled:hover .handle {
   left: calc(-1 * var(--hover-left));
 }
