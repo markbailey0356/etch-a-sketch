@@ -316,8 +316,8 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
     }
   }
   
-  const buttonColorWhite = document.getElementsByClassName("white-button")[0];
-  buttonColorWhite.addEventListener("click", () => {
+  const buttonColorBlack = document.getElementsByClassName("black-button")[0];
+  buttonColorBlack.addEventListener("click", () => {
     coloringFunction = drawColor;
     penColor = Color.WHITE;
   });
@@ -339,9 +339,6 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
     coloringFunction = drawColor;
     penColor = Color.BLUE;
   });
-  
-  const buttonColorRandom = document.getElementsByClassName("random-button")[0];
-  buttonColorRandom.addEventListener("click", () => coloringFunction = drawColorRandom);
 
   function setDefaultCellColor(color) {
     document.documentElement.style.setProperty("--default-cell-background-color", color.stretch(COLOR_STRETCH_FACTOR, COLOR_STRETCH_CENTER).toRGB());
@@ -362,19 +359,19 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
       grid.style.backgroundColor = Color.BLACK.stretch(GRIDLINE_STRETCH_FACTOR).toRGB();
       leftMouseButtonColorMode = "add";
       rightMouseButtonColorMode = "subtract";
-      buttonColorWhite.textContent = "Color: White";
-      buttonColorRed.textContent = "Color: Red";
-      buttonColorGreen.textContent = "Color: Green";
-      buttonColorBlue.textContent = "Color: Blue";
+      // buttonColorWhite.textContent = "Color: White";
+      // buttonColorRed.textContent = "Color: Red";
+      // buttonColorGreen.textContent = "Color: Green";
+      // buttonColorBlue.textContent = "Color: Blue";
     } else if (_colorMode == "subtract") {
       setDefaultCellColor(Color.WHITE);
       grid.style.backgroundColor = Color.WHITE.stretch(GRIDLINE_STRETCH_FACTOR).toRGB();
       leftMouseButtonColorMode = "subtract";
       rightMouseButtonColorMode = "add";
-      buttonColorWhite.textContent = "Color: Black";
-      buttonColorRed.textContent = "Color: Cyan";
-      buttonColorGreen.textContent = "Color: Magenta";
-      buttonColorBlue.textContent = "Color: Yellow";
+      // buttonColorWhite.textContent = "Color: Black";
+      // buttonColorRed.textContent = "Color: Cyan";
+      // buttonColorGreen.textContent = "Color: Magenta";
+      // buttonColorBlue.textContent = "Color: Yellow";
     }
   }
 
