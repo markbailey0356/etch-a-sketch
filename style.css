@@ -221,7 +221,7 @@ body {
 .opacity-slider {
   --opacity-slider-length: 200px;
   --opacity-slider-width: 20px;
-  --left-offset: 5px;
+  --left-offset: 0px;
   position: absolute;
   height: var(--opacity-slider-length);
   width: var(--opacity-slider-width);
@@ -282,6 +282,17 @@ body {
     -2px 7px 5px -3px #0000002f;
   border-top-right-radius: 100%;
   border-top-left-radius: 20%;
+}
+
+.opacity-slider-label {
+  --label-width: 15px;
+  position: absolute;
+  left: 12px;
+  top: calc(var(--opacity-slider-width)/2);
+  height: 0;
+  width: 0;
+  border-left: var(--label-width) solid var(--frame-color-dark);
+  border-bottom: calc(var(--opacity-slider-length) - var(--opacity-slider-width)) solid transparent;
 }
 
 .buttons {
