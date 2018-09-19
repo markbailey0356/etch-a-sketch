@@ -14,9 +14,10 @@ body {
   --grid-height: 490px; /* remove defining this constant both here and in JS */
   --grid-width: calc(5 / 3 * var(--grid-height));
   --frame-width: calc(var(--grid-width) + 2 * var(--frame-thickness));
+  --frame-height: calc(var(--grid-height) + 2 * var(--frame-thickness));
   position: absolute;
   width: var(--frame-width);
-  height: calc(var(--grid-height) + 2 * var(--frame-thickness));
+  height: var(--frame-height);
   background-color: var(--frame-color);
   border-radius: 20px;
   box-shadow: 10px 10px 10px 5px #222, 
@@ -217,6 +218,71 @@ body {
   box-shadow: inset 2px 2px 5px 2px #0000007f;
 }
 
+.opacity-slider {
+  --opacity-slider-length: 200px;
+  --opacity-slider-width: 20px;
+  --left-offset: 5px;
+  position: absolute;
+  height: var(--opacity-slider-length);
+  width: var(--opacity-slider-width);
+  left: calc(var(--frame-thickness)/2 - var(--opacity-slider-width)/2 + var(--left-offset));
+  top: calc(var(--frame-height)/2 - var(--opacity-slider-length)/2);
+  background-color: transparent;
+  z-index: 1;
+}
+
+.opacity-slider-track {
+  --track-thickness: 4px;
+  --left-offset: -3px;
+  position: absolute;
+  width: var(--track-thickness);
+  height: calc(var(--opacity-slider-length) - var(--opacity-slider-width));
+  top: calc(var(--opacity-slider-width)/2);
+  left: calc(var(--opacity-slider-width)/2 - var(--track-thickness)/2 + var(--left-offset));
+  background-color: #0f1935;
+  box-shadow: 2px 2px 5px 0 #ffffff3f;
+  z-index: -1
+}
+
+.opacity-slider-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: var(--opacity-slider-width);
+  width: 70%;
+  background-color: #940011;
+  border-radius: 20% 50% 50% 20%;
+  filter: drop-shadow(1px 3px 2px #222)
+}
+
+.opacity-slider-handle::after {
+  --side-length: calc(var(--opacity-slider-width)/1.414);
+  content: "";
+  position: absolute;
+  left: calc(var(--opacity-slider-width)/2);
+  top: 0;
+  width: var(--side-length);
+  height: var(--side-length);
+  background-color: #940011;
+  transform: rotate(45deg);
+  transform-origin: 0% 0%;
+  border-radius: 40% 0;
+  z-index: -1;
+}
+
+.opacity-slider-handle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 50%;
+  width: calc(var(--opacity-slider-width));
+  background-color: transparent;
+  box-shadow: inset 0 0 5px 0 #ffffff3f,
+    -2px 7px 5px -3px #0000002f;
+  border-top-right-radius: 100%;
+  border-top-left-radius: 20%;
+}
 
 .buttons {
   position: absolute;

@@ -256,6 +256,10 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
     } 
   }
 
+  function setOpacity(value) {
+    opacity = Color.clamp(value, 0, 1);
+  }
+
   function isDefaultCellColor(element) {
     return !element.style.getPropertyValue("--cell-background-color");
   }
