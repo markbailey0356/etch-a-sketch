@@ -199,9 +199,10 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   const COLOR_STRETCH_FACTOR = 0.7;
   const COLOR_STRETCH_CENTER = 127;
   const GRIDLINE_STRETCH_FACTOR = 0.5;
+  const DEFAULT_OPACITY = 0.5;
   let coloringFunction = drawColor;
   let penColor = Color.WHITE;
-  let opacity = 0.5;
+  let opacity;
 
   let leftMouseButtonColorMode;
   let rightMouseButtonColorMode;
@@ -256,9 +257,11 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
     } 
   }
 
-  function setOpacity(value) {
+  function setOpacity(value = DEFAULT_OPACITY) {
     opacity = Color.clamp(value, 0, 1);
   }
+  
+  setOpacity();
 
   function isDefaultCellColor(element) {
     return !element.style.getPropertyValue("--cell-background-color");
@@ -426,6 +429,48 @@ const GRID_WIDTH_IN_PIXELS = GRID_HEIGHT_IN_PIXELS * 5 / 3;
   window.addEventListener("mouseup", function(event) {
     sliderDragged = false;
   });
+
+  const opacitySliderHandle = document.getElementsByClassName("opacity-slider-handle")[0];
+  let opacitySliderHandleComputedStyle = getComputedStyle(opacitySliderHandle);
+  opacitySliderHandle.style.top = opacitySliderHandleComputedStyle.left;
+  let opacitySliderHandleWidth = parseInt(opacitySliderHandleComputedStyle.height);
+
+  const opacitySlider = document.getElementsByClassName("opacity-slider")[0];
+  let opacitySliderComputedStyle = getComputedStyle(opacitySlider);
+  let opacitySliderMax = parseInt(opacitySliderComputedStyle.height) - opacitySliderHandleWidth;
+  let opacitySliderDragged = false;
+  let origOpacitySliderY;
+  let origOpacityMouseY;
+  opacitySlider.addEventListener("mousedown", function(event) {
+    opacitySliderDragged = true;
+    origOpacityMouseY = event.clientY;
+    if (event.target == opacitySliderHandle) {
+      origOpacitySliderY = parseInt(opacitySliderHandle.style.top);
+    } else {
+      origOpacitySliderY = Color.clamp(event.offsetY - opacitySliderHandleWidth/2, 0, opacitySliderMax);
+      opacitySliderHandle.style.top = origOpacitySliderY + "px";
+    }
+  });
+  window.addEventListener("mousemove", function(event) {
+    if (opacitySliderDragged) {
+      let sliderY = origOpacitySliderY + (event.clientY - origOpacityMouseY);
+      sliderY = Color.clamp(sliderY, 0, opacitySliderMax);
+      opacitySliderHandle.style.top = sliderY + "px";
+    }
+  });
+  window.addEventListener("mouseup", function(event) {
+    if (opacitySliderDragged) {
+      let sliderY = parseInt(opacitySliderHandle.style.top);
+      setOpacity(1 - 0.9*sliderY/opacitySliderMax);
+    }
+    opacitySliderDragged = false;
+  });
+
+  function setOpacitySlider(opacity = DEFAULT_OPACITY) {
+    opacitySliderHandle.style.top = (1 - opacity)/0.9 * opacitySliderMax + "px";
+  }
+
+  setOpacitySlider();
 }
 
 { // make frame draggable
