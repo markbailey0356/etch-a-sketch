@@ -1,7 +1,19 @@
-# etch-a-sketch
+# The Magna-doodle project
 
-A project to build an Etch-a-Sketch-like app that colours grid squares on the page when moused-over. This is part of
-[*The Odin Project*'s curriculum](https://www.theodinproject.com/lessons/etch-a-sketch-project).
+This project is based upon the [*Etch-a-Sketch* Project](https://www.theodinproject.com/lessons/etch-a-sketch-project)
+from [**The Odin Project**](https://www.theodinproject.com) curriculum.
+
+I'll admit that I got a little bit carried away with this one when I realised that the brief has more in common with the
+old Magna-doodle than the Etch-a-sketch. I had one when I was young, so naturally, I went and made it look like a
+Magna-doodle instead -- with just a touch of added functionality.
+
+The result represents almost 50 hours of work and my first truly polished web application. In making this, I used pretty
+much everything I have learnt up until this point. Needless to say, I have very proud of it.
+
+The sections below represent a journal of my progress implementing each of the major features.
+
+As with all projects, it's not really finished, but it's about time I moved on. I'm sure I will continue to add to this
+project as I continue to learn.
 
 ## Additive colours
 
@@ -155,3 +167,4 @@ is a lot of ugly duplicated code here.
 I have some further ideas to implement:
 
 * Reposition frame on window resize
+* Make frame resizable
