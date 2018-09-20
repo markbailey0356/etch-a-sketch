@@ -79,9 +79,79 @@ drag events would fire when the grid was the `target` and `preventDefault()` cou
 
 Now, I just have to integrate the buttons into the frame...
 
+## Button integration
+
+This step turned out to be the most time-consuming; mainly due to my demanding expectations of how the controls should
+be styled.
+
+### Clear slider
+
+I started with the classic magna-doodle clear slider; the one that runs along the bottom of the frame and clears the screen. The slider
+consists of a containing frame `div`, inside which are `div`s for the track and handle. Making careful use of the `box-shadow`
+property allowed me to style the slider's frame to make the slider look recessed. I also needed to use a trapezoidal shaped
+pseudo-element to hide the existing shadow from the magna-doodle frame.
+
+As far as responding to input, sliders normally allow both clicking and dragging the handle, or making the handle jump to the mouse if the user clicks
+the track. In this case, I only wanted the former functionality to make it feel like the real thing. This was achieved
+by attaching a `mousedown` listener to the handle to start the movement, then `mousemove` and `mouseup` listeners to
+`window` to update and stop the movement. It was important for these latter listeners to be on `window` for the movement
+to continue even if the user moves the mouse vertically outside of the handle while still dragging.
+
+Once the slider was responding to input, I made the `mousemove` listener record how far the slider moves between updates
+and clear the appropriate columns of the grid accordingly. Writing the function to clear the grid required me to create
+a data structure to hold references to the cells. This data structure could then be populated when creating the grid,
+grouping cells by their containing columns. Clearing a particular columns just involves retreiving the column group and
+iterating over its cell members.
+
+### Mode switches
+
+This magna-doodle has a few more features than the real one, such as being able to invert the colour mode, change to a
+square grid, or toggle the grid-lines. I decided to integrate these alternate modes by adding some toggles switches
+along the top of the frame. Outside of styling, the switches needed no more functionality than the `click` events that I already had attached to the
+respective buttons.
+
+The styling required much more attention to integrate them into the frame and to make them visably toggle when clicked.
+Each switch is made up in a similar fashion to the clear slider: a containing frame with a switch handle. The majority
+of the styling was done through CSS, the only exception being the requirement to toggle a `.toggled` class to the switches in
+the `click` event listeners. This `.toggled` class moves the switch and highlights the label for the active mode. Using
+the `transition` property, I was able to animate the movement of the sliders, and I used a `setTimeout` callback to
+switch the mode once the animation was complete.
+
+I made one further change to the effect of changing the color mode. Instead of instantly changing the entire screen, I
+wanted the effect to ripple over the screen. I made use of the new grid columns that I had implemented while creating the
+clear slider. The function itself employs a recursive callback, inverting one columns then calling itself on the next
+column after setting a delay using `setTimeout()`. 
+
+One complication was to do with the grid-lines; they aren't actually the borders of the cells but gaps between the
+cells that leak the underlying grid's `background-color`. Changing the colour of these using CSS transitions would occur
+across the whole grid all at once. This would have likely been fine, but the added processing made the whole effect lag.
+It turned out to be possible to create a new underlying grid background in the new colour and extend it's width along
+with the rippling effect of the cells. The result was both more performant and more aesthically pleasing.
+
+### Color trays
+
+These switches are quite functionally very similar to the mode switches, but with major differences in styling. I wanted
+to attempt to have a color "tray" for each different color that would slide out of the frame when moused over. Upon
+toggling, they tray would snap to fully open and stay open until a new color is selected.
+
+I took this opportunity to remove some of the duplicated code that I used when creating the original color buttons.
+Instead of creating listeners individually with slight differences, I added the listener to the buttons' container. Upon
+triggering the event, the color is set according to the value of a HTML attribute on the target tray called
+`data-color`.
+
+Other than that, it was at this time that I discovered `display: flex` and used that to evenly space the trays along the
+right-hand side of the frame.
+
+## Opacity slider
+
+Aside from styling differences, the opacity slider functions very similar to the clear slider. The one exception is
+that, in this case, I wanted to implement the functionality where the handle would snap to the mouse of the user clicked
+on the track (instead of the handle). This required minor changes to the `mousedown` event listener. At the moment, I
+haven't generalised the two sliders to have the same listeners like I have done with the switches and trays -- so there
+is a lot of ugly duplicated code here.
+
 ## To-do list
 
 I have some further ideas to implement:
 
-* Change pen opacity
 * Reposition frame on window resize
