@@ -154,7 +154,7 @@ triggering the event, the color is set according to the value of a HTML attribut
 Other than that, it was at this time that I discovered `display: flex` and used that to evenly space the trays along the
 right-hand side of the frame.
 
-## Opacity slider
+### Opacity slider
 
 Aside from styling differences, the opacity slider functions very similar to the clear slider. The one exception is
 that, in this case, I wanted to implement the functionality where the handle would snap to the mouse of the user clicked
