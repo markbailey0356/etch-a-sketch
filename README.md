@@ -3,6 +3,8 @@
 This project is based upon the [*Etch-a-Sketch* Project](https://www.theodinproject.com/lessons/etch-a-sketch-project)
 from [**The Odin Project**](https://www.theodinproject.com) curriculum.
 
+The final result can be found here: [The Magna-doodle project](https://markbailey0356.github.io/etch-a-sketch/)
+
 I'll admit that I got a little bit carried away with this one when I realised that the brief has more in common with the
 old Magna-doodle than the Etch-a-sketch. I had one when I was young, so naturally, I went and made it look like a
 Magna-doodle instead -- with just a touch of added functionality.
